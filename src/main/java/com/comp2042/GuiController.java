@@ -258,6 +258,9 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
+
+        btnPause.setDisable(true);
+        btnPause.setText("Pause"); //reset label for next game
     }
 
     public void newGame(ActionEvent actionEvent) {
@@ -268,9 +271,30 @@ public class GuiController implements Initializable {
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
+
+        btnPause.setDisable(false);
+        btnPause.setText("Pause");
     }
 
     public void pauseGame(ActionEvent actionEvent) {
+
+        //Added pause logic
+        if (timeLine == null || isGameOver.get()) {
+            return;
+        }
+
+        if (isPause.get()) {
+            // currently paused → resume
+            timeLine.play();
+            isPause.set(false);
+            btnPause.setText("Pause");
+        } else {
+            // currently running → pause
+            timeLine.pause();
+            isPause.set(true);
+            btnPause.setText("Resume");
+        }
+
         gamePanel.requestFocus();
     }
 }
