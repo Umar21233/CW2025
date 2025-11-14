@@ -19,21 +19,21 @@ public class GameController implements InputEventListener {
         boolean canMove = board.moveBrickDown();
         ClearRow clearRow = null;
         if (!canMove) {
+            //piece has landed
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
+
+            //awards points for cleared lines
             if (clearRow.getLinesRemoved() > 0) {
                 board.getScore().add(clearRow.getScoreBonus());
             }
+            //checks for game over
             if (board.createNewBrick()) {
                 viewGuiController.gameOver();
             }
 
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
 
-        } else {
-            if (event.getEventSource() == EventSource.USER) {
-                board.getScore().add(1);
-            }
         }
         return new DownData(clearRow, board.getViewData());
     }
