@@ -1,5 +1,9 @@
 package com.comp2042;
 
+import javafx.beans.binding.Bindings;   //added first 4 imports
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -39,11 +43,18 @@ public class GuiController implements Initializable {
     @FXML
     private GameOverPanel gameOverPanel;
 
+    @FXML private Label scoreLabel, highLabel, levelLabel; //added fxml fields
+    @FXML private Pane nextPane;
+    @FXML private Button btnPlay, btnPause, btnSettings;
+
+
     private Rectangle[][] displayMatrix;
 
     private InputEventListener eventListener;
 
     private Rectangle[][] rectangles;
+
+    private Rectangle[][] nextRects;  //added field for 'next' rectangle/block
 
     private Timeline timeLine;
 
@@ -113,6 +124,30 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
 
+        //added preview of next block (4x4)
+        nextRects = new Rectangle[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                Rectangle r = new Rectangle(BRICK_SIZE, BRICK_SIZE);
+                r.setFill(Color.TRANSPARENT);
+                nextRects[i][j] = r;
+
+                // position inside nextPane as a small grid
+                r.setLayoutX(j * BRICK_SIZE);
+                r.setLayoutY(i * BRICK_SIZE);
+
+                nextPane.getChildren().add(r);
+            }
+        }
+
+        //to set initial point of next block
+        int[][] nextData = brick.getNextBrickData();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                setRectangleData(nextData[i][j], nextRects[i][j]);
+            }
+        }
+
 
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(400),
@@ -166,6 +201,14 @@ public class GuiController implements Initializable {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
                 }
             }
+
+            //to update the 'next block' preview
+            int[][] nextData = brick.getNextBrickData();
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    setRectangleData(nextData[i][j], nextRects[i][j]);
+                }
+            }
         }
     }
 
@@ -200,8 +243,16 @@ public class GuiController implements Initializable {
         this.eventListener = eventListener;
     }
 
-    public void bindScore(IntegerProperty integerProperty) {
+    public void bindScore(IntegerProperty scoreProp) {
+        //to show "Score: <number>" and auto-updates as the property changes
+        scoreLabel.textProperty().bind(Bindings.format("Score: %d", scoreProp));
     }
+
+    //add highscore binder stub (for later)
+    public void bindHighScore(IntegerProperty highProp) {
+        highLabel.textProperty().bind(Bindings.format("High: %d", highProp));
+    }
+
 
     public void gameOver() {
         timeLine.stop();
