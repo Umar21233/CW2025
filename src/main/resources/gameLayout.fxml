@@ -36,12 +36,19 @@
         <Label text="Next Block:" styleClass="nextBrickLabel"/>
         <Pane fx:id="nextPane" prefWidth="100" prefHeight="100" styleClass="nextBrick"/>
 
-        <!-- Buttons (logic later) -->
+
         <HBox spacing="8">
-            <Button fx:id="btnPlay"     text="Play Again"/>
-            <Button fx:id="btnPause"    text="Pause"    disable="true"/>
-            <Button fx:id="btnSettings" text="Settings" disable="true"/>
+            <Button fx:id="btnPlay"
+                    text="Play Again"
+                    onAction="#newGame"/>
+            <Button fx:id="btnPause"
+                    text="Pause"
+                    onAction="#pauseGame"/>
+            <Button fx:id="btnSettings"
+                    text="Settings"
+                    disable="true"/>
         </HBox>
+
     </VBox>
 
 </Pane>
