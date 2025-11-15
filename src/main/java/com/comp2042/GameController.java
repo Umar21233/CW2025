@@ -1,8 +1,11 @@
 package com.comp2042;
 
+import static com.comp2042.Constants.BOARD_HEIGHT;
+import static com.comp2042.Constants.BOARD_WIDTH; //added imports
+
 public class GameController implements InputEventListener {
 
-    private Board board = new SimpleBoard(25, 10);
+    private Board board = new SimpleBoard(BOARD_HEIGHT, BOARD_WIDTH);
 
     private final GuiController viewGuiController;
 

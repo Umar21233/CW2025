@@ -27,9 +27,12 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.comp2042.Constants.BRICK_SIZE;
+import static com.comp2042.Constants.INITIAL_TICK_MILLIS; //added imports
+
+
 public class GuiController implements Initializable {
 
-    private static final int BRICK_SIZE = 20;
 
     @FXML
     private GridPane gamePanel;
@@ -150,7 +153,7 @@ public class GuiController implements Initializable {
 
 
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
+                Duration.millis(INITIAL_TICK_MILLIS), //changed the hardcoded 400
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
