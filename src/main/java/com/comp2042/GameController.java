@@ -1,5 +1,7 @@
 package com.comp2042;
 
+import static com.comp2042.Constants.*;
+
 public class GameController implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
@@ -23,10 +25,13 @@ public class GameController implements InputEventListener {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
 
-            //awards points for cleared lines
-            if (clearRow.getLinesRemoved() > 0) {
-                board.getScore().add(clearRow.getScoreBonus());
+            int lines = clearRow.getLinesRemoved();
+            if (lines > 0) {
+                board.getScore().addLineClear(lines);
+                board.getScore().addLines(lines); //track for levels
+                updateLevelIfNeeded();
             }
+
             //checks for game over
             if (board.createNewBrick()) {
                 viewGuiController.gameOver();
@@ -59,7 +64,18 @@ public class GameController implements InputEventListener {
 
     @Override
     public void createNewGame() {
-        board.newGame();
+        board.newGame(); //simpleBoard.newGame() also creates the first brick + resets score
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
+
+        //reset level + speed to initial
+        viewGuiController.updateLevelLabel(1);
+        viewGuiController.updateSpeed(INITIAL_TICK_MILLIS);
+    }
+
+    private void updateLevelIfNeeded() {
+        int total = board.getScore().getTotalLines();
+        int level = Math.min(MAX_LEVEL, 1 + total / LINES_PER_LEVEL);
+        viewGuiController.updateLevelLabel(level);
+        viewGuiController.updateSpeed(LEVEL_SPEED[level - 1]);
     }
 }

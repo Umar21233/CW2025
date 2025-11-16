@@ -33,8 +33,19 @@ public final class Score {
         }
     }
 
+    private int totalLinesCleared = 0;
+
+    public int getTotalLines() {
+        return totalLinesCleared;
+    }
+
+    public void addLines(int lines) {
+        totalLinesCleared += lines;
+    }
+
     public void reset() {
         score.set(0);
+        totalLinesCleared = 0;
     }
 }
 

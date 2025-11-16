@@ -227,10 +227,12 @@ public class GuiController implements Initializable {
     }
 
     private void moveDown(MoveEvent event) {
-        if (isPause.getValue() == Boolean.FALSE) {
+        // Respect pause flag
+        if (!isPause.get()) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-                NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+                NotificationPanel notificationPanel =
+                        new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
             }
@@ -255,22 +257,74 @@ public class GuiController implements Initializable {
 
 
     public void gameOver() {
-        timeLine.stop();
+        if (timeLine != null) {
+            timeLine.stop();
+        }
         gameOverPanel.setVisible(true);
-        isGameOver.setValue(Boolean.TRUE);
+
+        isGameOver.set(true);
+        isPause.set(false);          //make sure pause flag is cleared
+
+        btnPause.setDisable(true);   //can't pause on game over
+        btnPause.setText("Pause");   //reset label ready for next game
     }
+
 
     public void newGame(ActionEvent actionEvent) {
-        timeLine.stop();
+        if (timeLine != null) {
+            timeLine.stop();
+        }
+
         gameOverPanel.setVisible(false);
+
+        //tell the controller to reset board + score
         eventListener.createNewGame();
         gamePanel.requestFocus();
+
+        //restart automatic falling
         timeLine.play();
-        isPause.setValue(Boolean.FALSE);
-        isGameOver.setValue(Boolean.FALSE);
+
+        isPause.set(false);
+        isGameOver.set(false);
+
+        //reset Pause button state + label
+        btnPause.setDisable(false);
+        btnPause.setText("Pause");
     }
 
+
     public void pauseGame(ActionEvent actionEvent) {
+        if (timeLine == null || isGameOver.get()) {
+            return;
+        }
+
+        if (isPause.get()) {
+            // currently paused → resume
+            timeLine.play();
+            isPause.set(false);
+            btnPause.setText("Pause");
+        } else {
+            // currently running → pause
+            timeLine.pause();
+            isPause.set(true);
+            btnPause.setText("Resume");
+        }
+
         gamePanel.requestFocus();
+    }
+
+    public void updateLevelLabel(int level) {
+        levelLabel.setText("Level: " + level);
+    }
+
+    public void updateSpeed(int millis) {
+        if (timeLine != null) {
+            timeLine.stop();
+            timeLine.getKeyFrames().setAll(new KeyFrame(
+                    Duration.millis(millis),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+            ));
+            timeLine.play();
+        }
     }
 }
