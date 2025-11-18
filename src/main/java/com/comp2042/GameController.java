@@ -10,8 +10,8 @@ public class GameController implements InputEventListener {
         board.createNewBrick();
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
-        viewGuiController.bindScore(board.getScore().scoreProperty());
 
+        // Bind current score + high score to sidebar labels
         viewGuiController.bindScore(board.getScore().scoreProperty());
         viewGuiController.bindHighScore(board.getScore().highScoreProperty());
     }
@@ -25,8 +25,13 @@ public class GameController implements InputEventListener {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
 
-            if (clearRow.getLinesRemoved() > 0) {
-                board.getScore().add(clearRow.getScoreBonus());
+            if (clearRow != null) {
+                int lines = clearRow.getLinesRemoved();
+                if (lines > 0) {
+                    // Add points and track total lines
+                    board.getScore().add(clearRow.getScoreBonus());
+                    board.getScore().addLines(lines);
+                }
             }
 
             if (board.createNewBrick()) {
@@ -63,3 +68,4 @@ public class GameController implements InputEventListener {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
 }
+
