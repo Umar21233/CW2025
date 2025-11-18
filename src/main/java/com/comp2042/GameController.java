@@ -14,7 +14,6 @@ public class GameController implements InputEventListener {
         //Bind current score + high score to sidebar labels
         viewGuiController.bindScore(board.getScore().scoreProperty());
         viewGuiController.bindHighScore(board.getScore().highScoreProperty());
-
     }
 
     @Override
@@ -29,10 +28,8 @@ public class GameController implements InputEventListener {
             if (clearRow != null) {
                 int lines = clearRow.getLinesRemoved();
                 if (lines > 0) {
-                    //Add points and track total lines
                     board.getScore().add(clearRow.getScoreBonus());
                     board.getScore().addLines(lines);
-
                 }
             }
 
@@ -43,6 +40,7 @@ public class GameController implements InputEventListener {
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
         }
 
+        //normal soft drop doesn’t need the board in DownData
         return new DownData(clearRow, board.getViewData());
     }
 
@@ -65,11 +63,36 @@ public class GameController implements InputEventListener {
     }
 
     @Override
+    public DownData onHardDrop(MoveEvent event) {
+        // Move down until blocked
+        while (board.moveBrickDown()) {
+            //just keep dropping
+        }
+
+        //Lock the piece
+        board.mergeBrickToBackground();
+        ClearRow clearRow = board.clearRows();
+
+        if (clearRow != null && clearRow.getLinesRemoved() > 0) {
+            board.getScore().add(clearRow.getScoreBonus());
+            board.getScore().addLines(clearRow.getLinesRemoved());
+        }
+
+        //Spawn new piece, check game over
+        if (board.createNewBrick()) {
+            viewGuiController.gameOver();
+        }
+
+        //Update background for locked piece
+        viewGuiController.refreshGameBackground(board.getBoardMatrix());
+
+        //For hard drop we also pass the board matrix (if GUI ever wants it)
+        return new DownData(clearRow, board.getViewData(), board.getBoardMatrix());
+    }
+
+    @Override
     public void createNewGame() {
         board.newGame();
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
-
     }
-
 }
-

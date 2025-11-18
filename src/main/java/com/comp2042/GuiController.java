@@ -101,7 +101,12 @@ public class GuiController implements Initializable {
                         moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                         keyEvent.consume();
                     }
+                    if (keyEvent.getCode() == KeyCode.SPACE) {
+                        hardDrop(new MoveEvent(EventType.HARD_DROP, EventSource.USER));
+                        keyEvent.consume();
+                    }
                 }
+
                 if (keyEvent.getCode() == KeyCode.N) {
                     newGame(null);
                 }
@@ -115,6 +120,7 @@ public class GuiController implements Initializable {
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
     }
+
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
@@ -346,6 +352,24 @@ public class GuiController implements Initializable {
         }
         gamePanel.requestFocus();
     }
+
+    private void hardDrop(MoveEvent event) {
+        DownData downData = eventListener.onHardDrop(event);
+
+        if (downData.getClearRow() != null &&
+                downData.getClearRow().getLinesRemoved() > 0) {
+            NotificationPanel notificationPanel =
+                    new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+            groupNotification.getChildren().add(notificationPanel);
+            notificationPanel.showScore(groupNotification.getChildren());
+        }
+
+        //Board background should already be refreshed by GameController; we just update piece + ghost + next
+        refreshBrick(downData.getViewData());
+
+        gamePanel.requestFocus();
+    }
+
 
     public void setEventListener(InputEventListener eventListener) {
         this.eventListener = eventListener;
