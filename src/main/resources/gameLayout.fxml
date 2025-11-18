@@ -23,9 +23,9 @@
     <stylesheets>
         <URL value="@window_style.css"/>
     </stylesheets>
-    <!-- Right sidebar (to add Score/Highscore/Level, Next box, Buttons) -->
+    <!-- Right sidebar (Score/Highscore/Level, Next box, Buttons) -->
     <VBox fx:id="rightBar" spacing="12" layoutX="340" layoutY="20"
-          xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" styleClass="vbox">
+          alignment="TOP_LEFT" styleClass="vbox">
 
         <!-- Live labels -->
         <Label fx:id="scoreLabel" text="Current Score: 0" styleClass="scoreClass"/>
@@ -34,14 +34,25 @@
 
         <!-- Next piece preview -->
         <Label text="Next Block:" styleClass="nextBrickLabel"/>
-        <Pane fx:id="nextPane" prefWidth="100" prefHeight="100" styleClass="nextBrick"/>
+        <Pane fx:id="nextPane"
+              prefWidth="110"
+              prefHeight="110"
+              styleClass="nextBrick"/>
 
-        <!-- Buttons (logic later) -->
+
+        <!-- Buttons -->
         <HBox spacing="8">
-            <Button fx:id="btnPlay"     text="Play Again"/>
-            <Button fx:id="btnPause"    text="Pause"    disable="true"/>
-            <Button fx:id="btnSettings" text="Settings" disable="true"/>
+            <Button fx:id="btnPlay"
+                    text="Play Again"
+                    onAction="#newGame"/>
+            <Button fx:id="btnPause"
+                    text="Pause"
+                    onAction="#pauseGame"/>
+            <Button fx:id="btnSettings"
+                    text="Settings"
+                    disable="true"/>
         </HBox>
     </VBox>
+
 
 </Pane>

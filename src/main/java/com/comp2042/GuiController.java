@@ -124,23 +124,67 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
 
+<<<<<<< Updated upstream
         //added preview of next block (4x4)
+=======
+        brickPanel.setLayoutX(
+                gamePanel.getLayoutX()
+                        + brick.getxPosition() * brickPanel.getVgap()
+                        + brick.getxPosition() * BRICK_SIZE
+        );
+        brickPanel.setLayoutY(
+                -42 + gamePanel.getLayoutY()
+                        + brick.getyPosition() * brickPanel.getHgap()
+                        + brick.getyPosition() * BRICK_SIZE
+        );
+
+        //create 4x4 preview grid, centered inside nextPane
+>>>>>>> Stashed changes
         nextRects = new Rectangle[4][4];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+
+        // initial placement (will be re-centered once the pane knows its size)
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
                 Rectangle r = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                 r.setFill(Color.TRANSPARENT);
-                nextRects[i][j] = r;
+                nextRects[row][col] = r;
 
+<<<<<<< Updated upstream
                 // position inside nextPane as a small grid
                 r.setLayoutX(j * BRICK_SIZE);
                 r.setLayoutY(i * BRICK_SIZE);
+=======
+                r.setLayoutX(col * BRICK_SIZE);
+                r.setLayoutY(row * BRICK_SIZE);
+>>>>>>> Stashed changes
 
                 nextPane.getChildren().add(r);
             }
         }
 
+<<<<<<< Updated upstream
         //to set initial point of next block
+=======
+        // center the 4x4 grid INSIDE nextPane once it has real size
+        nextPane.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+            double paneW = newBounds.getWidth();
+            double paneH = newBounds.getHeight();
+            double gridSize = 4 * BRICK_SIZE;   // 4x4 blocks
+
+            double offsetX = (paneW - gridSize) / 2.0;
+            double offsetY = (paneH - gridSize) / 2.0;
+
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    Rectangle r = nextRects[row][col];
+                    r.setLayoutX(offsetX + col * BRICK_SIZE);
+                    r.setLayoutY(offsetY + row * BRICK_SIZE);
+                }
+            }
+        });
+
+
+>>>>>>> Stashed changes
         int[][] nextData = brick.getNextBrickData();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
