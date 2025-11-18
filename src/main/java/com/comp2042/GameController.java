@@ -14,6 +14,9 @@ public class GameController implements InputEventListener {
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
+
+        //bind high-score label
+        viewGuiController.bindHighScore(board.getScore().highScoreProperty());
     }
 
     @Override
@@ -34,6 +37,8 @@ public class GameController implements InputEventListener {
 
             //checks for game over
             if (board.createNewBrick()) {
+                //new: update high score before we ever reset the score
+                board.getScore().updateHighScore();
                 viewGuiController.gameOver();
             }
 

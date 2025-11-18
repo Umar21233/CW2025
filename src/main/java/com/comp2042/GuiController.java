@@ -103,7 +103,7 @@ public class GuiController implements Initializable {
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
-        for (int i = 2; i < boardMatrix.length; i++) {
+        for (int i = 2; i < boardMatrix.length; i++) {          // start at 2 again
             for (int j = 0; j < boardMatrix[i].length; j++) {
                 Rectangle rectangle = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                 rectangle.setFill(Color.TRANSPARENT);
@@ -121,10 +121,18 @@ public class GuiController implements Initializable {
                 brickPanel.add(rectangle, j, i);
             }
         }
-        brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
-        brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
 
-        //added preview of next block (4x4)
+        brickPanel.setLayoutX(
+                gamePanel.getLayoutX()
+                        + brick.getxPosition() * brickPanel.getVgap()
+                        + brick.getxPosition() * BRICK_SIZE
+        );
+        brickPanel.setLayoutY(
+                -42 + gamePanel.getLayoutY()
+                        + brick.getyPosition() * brickPanel.getHgap()
+                        + brick.getyPosition() * BRICK_SIZE
+        );
+
         nextRects = new Rectangle[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -132,7 +140,6 @@ public class GuiController implements Initializable {
                 r.setFill(Color.TRANSPARENT);
                 nextRects[i][j] = r;
 
-                // position inside nextPane as a small grid
                 r.setLayoutX(j * BRICK_SIZE);
                 r.setLayoutY(i * BRICK_SIZE);
 
@@ -140,14 +147,12 @@ public class GuiController implements Initializable {
             }
         }
 
-        //to set initial point of next block
         int[][] nextData = brick.getNextBrickData();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 setRectangleData(nextData[i][j], nextRects[i][j]);
             }
         }
-
 
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(400),
@@ -156,6 +161,7 @@ public class GuiController implements Initializable {
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
+
 
     private Paint getFillColor(int i) {
         Paint returnPaint;
@@ -193,16 +199,26 @@ public class GuiController implements Initializable {
 
 
     private void refreshBrick(ViewData brick) {
-        if (isPause.getValue() == Boolean.FALSE) {
-            brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
-            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
+        if (!isPause.get()) {
+
+            brickPanel.setLayoutX(
+                    gamePanel.getLayoutX()
+                            + brick.getxPosition() * brickPanel.getVgap()
+                            + brick.getxPosition() * BRICK_SIZE
+            );
+
+            brickPanel.setLayoutY(
+                    -42 + gamePanel.getLayoutY()
+                            + brick.getyPosition() * brickPanel.getHgap()
+                            + brick.getyPosition() * BRICK_SIZE
+            );
+
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
                 }
             }
 
-            //to update the 'next block' preview
             int[][] nextData = brick.getNextBrickData();
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -212,6 +228,8 @@ public class GuiController implements Initializable {
         }
     }
 
+
+
     public void refreshGameBackground(int[][] board) {
         for (int i = 2; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -219,6 +237,8 @@ public class GuiController implements Initializable {
             }
         }
     }
+
+
 
     private void setRectangleData(int color, Rectangle rectangle) {
         rectangle.setFill(getFillColor(color));
@@ -252,7 +272,7 @@ public class GuiController implements Initializable {
 
     //add highscore binder stub (for later)
     public void bindHighScore(IntegerProperty highProp) {
-        highLabel.textProperty().bind(Bindings.format("High: %d", highProp));
+        highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
     }
 
 

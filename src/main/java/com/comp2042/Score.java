@@ -9,6 +9,9 @@ public final class Score {
 
     private final IntegerProperty score = new SimpleIntegerProperty(0);
 
+    private final IntegerProperty highScore = new SimpleIntegerProperty(0);
+    //this is new (high-score in memory)
+
     public IntegerProperty scoreProperty() {
         return score;
     }
@@ -41,6 +44,22 @@ public final class Score {
 
     public void addLines(int lines) {
         totalLinesCleared += lines;
+    }
+
+    //High Score API:
+    public IntegerProperty highScoreProperty() {
+        return highScore;
+    }
+
+    public int getHighScore() {
+        return highScore.get();
+    }
+
+    //call this at game over to update high score if needed
+    public void updateHighScore() {
+        if (score.get() > highScore.get()) {
+            highScore.set(score.get());
+        }
     }
 
     public void reset() {
