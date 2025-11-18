@@ -8,55 +8,57 @@ import java.util.stream.Collectors;
 
 public class MatrixOperations {
 
-
-    //We don't want to instantiate this utility class
-    private MatrixOperations(){
-
-    }
+    private MatrixOperations() { }
 
     public static boolean intersect(final int[][] matrix, final int[][] brick, int x, int y) {
-        for (int i = 0; i < brick.length; i++) {
-            for (int j = 0; j < brick[i].length; j++) {
-                int targetX = x + i;
-                int targetY = y + j;
-                if (brick[j][i] != 0 && (checkOutOfBound(matrix, targetX, targetY) || matrix[targetY][targetX] != 0)) {
+
+        for (int row = 0; row < brick.length; row++) {
+            for (int col = 0; col < brick[row].length; col++) {
+
+                if (brick[row][col] == 0)
+                    continue;
+
+                int targetX = x + col;  // col = X
+                int targetY = y + row;  // row = Y
+
+                if (checkOutOfBound(matrix, targetX, targetY)
+                        || matrix[targetY][targetX] != 0) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
-    private static boolean checkOutOfBound(int[][] matrix, int targetX, int targetY) {
-        boolean returnValue = true;
-        if (targetX >= 0 && targetY < matrix.length && targetX < matrix[targetY].length) {
-            returnValue = false;
-        }
-        return returnValue;
+    private static boolean checkOutOfBound(int[][] matrix, int x, int y) {
+        return (x < 0 || x >= matrix[0].length || y < 0 || y >= matrix.length);
     }
 
     public static int[][] copy(int[][] original) {
         int[][] myInt = new int[original.length][];
         for (int i = 0; i < original.length; i++) {
-            int[] aMatrix = original[i];
-            int aLength = aMatrix.length;
-            myInt[i] = new int[aLength];
-            System.arraycopy(aMatrix, 0, myInt[i], 0, aLength);
+            myInt[i] = original[i].clone();
         }
         return myInt;
     }
 
-    public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y) {
-        int[][] copy = copy(filledFields);
-        for (int i = 0; i < brick.length; i++) {
-            for (int j = 0; j < brick[i].length; j++) {
-                int targetX = x + i;
-                int targetY = y + j;
-                if (brick[j][i] != 0) {
-                    copy[targetY][targetX] = brick[j][i];
-                }
+    public static int[][] merge(int[][] field, int[][] brick, int x, int y) {
+        int[][] copy = copy(field);
+
+        for (int row = 0; row < brick.length; row++) {
+            for (int col = 0; col < brick[row].length; col++) {
+
+                if (brick[row][col] == 0)
+                    continue;
+
+                int targetX = x + col;
+                int targetY = y + row;
+
+                copy[targetY][targetX] = brick[row][col];
             }
         }
+
         return copy;
     }
 
@@ -66,34 +68,30 @@ public class MatrixOperations {
         List<Integer> clearedRows = new ArrayList<>();
 
         for (int i = 0; i < matrix.length; i++) {
-            int[] tmpRow = new int[matrix[i].length];
-            boolean rowToClear = true;
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == 0) {
-                    rowToClear = false;
-                }
-                tmpRow[j] = matrix[i][j];
+            boolean full = true;
+            int[] row = matrix[i].clone();
+
+            for (int v : row) {
+                if (v == 0) full = false;
             }
-            if (rowToClear) {
-                clearedRows.add(i);
-            } else {
-                newRows.add(tmpRow);
-            }
+
+            if (full) clearedRows.add(i);
+            else newRows.add(row);
         }
+
         for (int i = matrix.length - 1; i >= 0; i--) {
-            int[] row = newRows.pollLast();
-            if (row != null) {
-                tmp[i] = row;
-            } else {
-                break;
-            }
+            int[] r = newRows.pollLast();
+            if (r != null) tmp[i] = r;
+            else tmp[i] = new int[matrix[0].length];
         }
-        int scoreBonus = 50 * clearedRows.size() * clearedRows.size();
-        return new ClearRow(clearedRows.size(), tmp, scoreBonus);
+
+        int count = clearedRows.size();
+        int scoreBonus = 50 * count * count;
+
+        return new ClearRow(count, tmp, scoreBonus);
     }
 
     public static List<int[][]> deepCopyList(List<int[][]> list){
         return list.stream().map(MatrixOperations::copy).collect(Collectors.toList());
     }
-
 }
