@@ -7,11 +7,22 @@ public final class ViewData {
     private final int yPosition;
     private final int[][] nextBrickData;
 
-    public ViewData(int[][] brickData, int xPosition, int yPosition, int[][] nextBrickData) {
-        this.brickData = brickData;
+    //ghost Y position (same X as normal piece)
+    private final int ghostYPosition;
+
+    public ViewData(int[][] brickData,
+                    int xPosition,
+                    int yPosition,
+                    int[][] nextBrickData,
+                    int ghostYPosition) {
+
+        //make defensive copies so UI can't mutate board state by accident
+        this.brickData = MatrixOperations.copy(brickData);
+        this.nextBrickData = MatrixOperations.copy(nextBrickData);
+
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.nextBrickData = nextBrickData;
+        this.ghostYPosition = ghostYPosition;
     }
 
     public int[][] getBrickData() {
@@ -28,5 +39,10 @@ public final class ViewData {
 
     public int[][] getNextBrickData() {
         return MatrixOperations.copy(nextBrickData);
+    }
+
+    //where the ghost should sit vertically (row index)
+    public int getGhostYPosition() {
+        return ghostYPosition;
     }
 }

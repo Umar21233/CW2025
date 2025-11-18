@@ -17,12 +17,12 @@ public class SimpleBoard implements Board {
     private final Score score;
 
     public SimpleBoard(int width, int height) {
-        // width  = number of columns (X)
-        // height = number of rows    (Y)
+        //width  = number of columns (X)
+        //height = number of rows    (Y)
         this.width = width;
         this.height = height;
 
-        // matrix[rows][cols] = [height][width]
+        //matrix[rows][cols] = [height][width]
         currentGameMatrix = new int[height][width];
 
         brickGenerator = new RandomBrickGenerator();
@@ -130,15 +130,37 @@ public class SimpleBoard implements Board {
         return currentGameMatrix;
     }
 
+    //helper to compute ghost Y for the current brick
+    private int computeGhostY() {
+        int[][] fieldCopy = MatrixOperations.copy(currentGameMatrix);
+        int[][] shape = brickRotator.getCurrentShape();
+
+        int ghostY = currentOffset.y;
+
+        //Drop until the next step would collide
+        while (!MatrixOperations.intersect(fieldCopy, shape, currentOffset.x, ghostY + 1)) {
+            ghostY++;
+            //safety break: don't go below board
+            if (ghostY >= height - 1) {
+                break;
+            }
+        }
+        return ghostY;
+    }
+
     @Override
     public ViewData getViewData() {
+        int ghostY = computeGhostY();  // <- call helper
+
         return new ViewData(
                 brickRotator.getCurrentShape(),
                 (int) currentOffset.getX(),
                 (int) currentOffset.getY(),
-                brickGenerator.getNextBrick().getShapeMatrix().get(0)
+                brickGenerator.getNextBrick().getShapeMatrix().get(0),
+                ghostY
         );
     }
+
 
     @Override
     public void mergeBrickToBackground() {
