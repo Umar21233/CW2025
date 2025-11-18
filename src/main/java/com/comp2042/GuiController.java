@@ -290,7 +290,6 @@ public class GuiController implements Initializable {
         highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
     }
 
-    // ----------- game state controls ------------
 
     public void gameOver() {
         if (timeLine != null) {
