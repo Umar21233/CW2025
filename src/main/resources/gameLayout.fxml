@@ -34,7 +34,6 @@
         <!-- Live labels -->
         <Label fx:id="scoreLabel" text="Score: 0" styleClass="scoreClass"/>
         <Label fx:id="highLabel"  text="High Score: 0"  styleClass="scoreClass"/>
-        <Label fx:id="levelLabel" text=""/>
 
         <!-- Next piece preview -->
         <Label text="Next Block:" styleClass="nextBrickLabel"/>

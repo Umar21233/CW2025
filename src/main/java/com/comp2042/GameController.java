@@ -15,8 +15,6 @@ public class GameController implements InputEventListener {
         viewGuiController.bindScore(board.getScore().scoreProperty());
         viewGuiController.bindHighScore(board.getScore().highScoreProperty());
 
-        //Initial level display
-        updateLevelLabel();
     }
 
     @Override
@@ -35,8 +33,6 @@ public class GameController implements InputEventListener {
                     board.getScore().add(clearRow.getScoreBonus());
                     board.getScore().addLines(lines);
 
-                    //Update level label based on total cleared lines
-                    updateLevelLabel();
                 }
             }
 
@@ -72,21 +68,8 @@ public class GameController implements InputEventListener {
     public void createNewGame() {
         board.newGame();
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
-        //reset level display for new run
-        updateLevelLabel();
+
     }
 
-
-    private void updateLevelLabel() {
-        int totalLines = board.getScore().getTotalLines();
-
-        //simple rule: every 10 lines = +1 level
-        int level = 1 + (totalLines / 10);
-        if (level < 1) {
-            level = 1;
-        }
-
-        viewGuiController.updateLevelLabel(level);
-    }
 }
 

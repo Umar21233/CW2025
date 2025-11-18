@@ -44,7 +44,7 @@ public class GuiController implements Initializable {
     private GameOverPanel gameOverPanel;
 
     @FXML
-    private Label scoreLabel, highLabel, levelLabel;
+    private Label scoreLabel, highLabel;
 
     @FXML
     private Pane nextPane;
@@ -289,11 +289,6 @@ public class GuiController implements Initializable {
     public void bindHighScore(IntegerProperty highProp) {
         highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
     }
-
-    public void updateLevelLabel(int level) {
-        levelLabel.setText("Level: " + level);
-    }
-
 
 
     public void gameOver() {
