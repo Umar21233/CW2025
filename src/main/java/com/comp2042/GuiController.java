@@ -290,6 +290,11 @@ public class GuiController implements Initializable {
         highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
     }
 
+    public void updateLevelLabel(int level) {
+        levelLabel.setText("Level: " + level);
+    }
+
+
 
     public void gameOver() {
         if (timeLine != null) {
