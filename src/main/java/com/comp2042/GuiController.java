@@ -11,6 +11,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
@@ -41,10 +43,10 @@ public class GuiController implements Initializable {
     private GridPane gamePanel;
 
     @FXML
-    private Group groupNotification;
+    private Canvas gridCanvas;       //background grid
 
-    //@FXML
-   // private GridPane brickPanel;
+    @FXML
+    private Group groupNotification;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -62,9 +64,8 @@ public class GuiController implements Initializable {
     private InputEventListener eventListener;
     private Rectangle[][] rectangles;
     private Rectangle[][] nextRects;
-    private Timeline timeLine;
     private Rectangle[][] ghostRects;
-
+    private Timeline timeLine;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty(false);
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(false);
@@ -121,19 +122,42 @@ public class GuiController implements Initializable {
         reflection.setTopOffset(-12);
     }
 
-
     public void initGameView(int[][] boardMatrix, ViewData brick) {
+
+        //Configure and draw the background grid
+
+        int cols        = boardMatrix[0].length;
+        int visibleRows = boardMatrix.length - 2; // top 2 = hidden spawn rows
+
+        double cellWidth  = BRICK_SIZE + gamePanel.getHgap();
+        double cellHeight = BRICK_SIZE + gamePanel.getVgap();
+
+        double canvasWidth  = cols * cellWidth  - gamePanel.getHgap();
+        double canvasHeight = visibleRows * cellHeight - gamePanel.getVgap();
+
+        gridCanvas.setWidth(canvasWidth);
+        gridCanvas.setHeight(canvasHeight);
+
+        // StackPane origin is (0,0), same for gamePanel / ghostPanel / brickPanel
+        gridCanvas.setLayoutX(0);
+        gridCanvas.setLayoutY(0);
+
+        drawGrid(cols, visibleRows);
+
+        //Background cells (landed blocks)
+
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
         for (int i = 2; i < boardMatrix.length; i++) {
             for (int j = 0; j < boardMatrix[i].length; j++) {
                 Rectangle rectangle = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                 rectangle.setFill(Color.TRANSPARENT);
                 displayMatrix[i][j] = rectangle;
-                gamePanel.add(rectangle, j, i - 2);
+                gamePanel.add(rectangle, j, i - 2); // board row i -> visible row i-2
             }
         }
 
         //Falling brick (active piece)
+
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -144,19 +168,8 @@ public class GuiController implements Initializable {
             }
         }
 
-        //position main brick
-        brickPanel.setLayoutX(
-                gamePanel.getLayoutX()
-                        + brick.getxPosition() * brickPanel.getVgap()
-                        + brick.getxPosition() * BRICK_SIZE
-        );
-        brickPanel.setLayoutY(
-                -42 + gamePanel.getLayoutY()
-                        + brick.getyPosition() * brickPanel.getHgap()
-                        + brick.getyPosition() * BRICK_SIZE
-        );
+        //Ghost brick (same shape, at ghostY)
 
-        //Ghost brick (same shape, lower Y)
         ghostRects = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -166,29 +179,30 @@ public class GuiController implements Initializable {
                 ghostPanel.add(g, j, i);
             }
         }
-        ghostPanel.setLayoutX(
-                gamePanel.getLayoutX()
-                        + brick.getxPosition() * ghostPanel.getVgap()
-                        + brick.getxPosition() * BRICK_SIZE
-        );
-        ghostPanel.setLayoutY(
-                -42 + gamePanel.getLayoutY()
-                        + brick.getGhostYPosition() * ghostPanel.getHgap()
-                        + brick.getGhostYPosition() * BRICK_SIZE
-        );
+
+        //board row 2 = visible row 0
+        int visibleY      = brick.getyPosition()      - 2;
+        int visibleGhostY = brick.getGhostYPosition() - 2;
+
+        //Align to the SAME grid as background using translations
+        brickPanel.setTranslateX(brick.getxPosition() * cellWidth);
+        brickPanel.setTranslateY(visibleY * cellHeight);
+
+        ghostPanel.setTranslateX(brick.getxPosition() * cellWidth);
+        ghostPanel.setTranslateY(visibleGhostY * cellHeight);
+
+        //Next piece preview
 
         nextPane.getChildren().clear();
         nextRects = new Rectangle[4][4];
 
-        double grid = BRICK_SIZE * 4;
+        double gridSize = BRICK_SIZE * 4;
 
-        //initial centering using current / preferred size
         double paneWInit = nextPane.getWidth()  > 0 ? nextPane.getWidth()  : nextPane.getPrefWidth();
         double paneHInit = nextPane.getHeight() > 0 ? nextPane.getHeight() : nextPane.getPrefHeight();
-        double offsetXInit = (paneWInit - grid) / 2.0;
-        double offsetYInit = (paneHInit - grid) / 2.0;
+        double offsetXInit = (paneWInit - gridSize) / 2.0;
+        double offsetYInit = (paneHInit - gridSize) / 2.0;
 
-        //create rectangles, positioned centred from the very first frame
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
                 Rectangle rect = new Rectangle(BRICK_SIZE, BRICK_SIZE);
@@ -202,12 +216,11 @@ public class GuiController implements Initializable {
             }
         }
 
-        //keep them centred if the pane is resized later
         nextPane.layoutBoundsProperty().addListener((obs, oldB, newB) -> {
             double paneW = newB.getWidth();
             double paneH = newB.getHeight();
-            double offsetX = (paneW - grid) / 2.0;
-            double offsetY = (paneH - grid) / 2.0;
+            double offsetX = (paneW - gridSize) / 2.0;
+            double offsetY = (paneH - gridSize) / 2.0;
 
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 4; c++) {
@@ -218,7 +231,6 @@ public class GuiController implements Initializable {
             }
         });
 
-        // fill with the initial "next" brick data
         int[][] nextData = brick.getNextBrickData();
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
@@ -226,6 +238,7 @@ public class GuiController implements Initializable {
             }
         }
 
+        //Timeline
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(400),
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
@@ -237,6 +250,38 @@ public class GuiController implements Initializable {
         isGameOver.set(false);
         btnPause.setDisable(false);
         btnPause.setText("Pause");
+    }
+
+
+
+
+    //Draws the faint background grid (medium contrast)
+    private void drawGrid(int cols, int rows) {
+        if (gridCanvas == null) return;
+
+        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, gridCanvas.getWidth(), gridCanvas.getHeight());
+
+        gc.setStroke(Color.color(1, 1, 1, 0.18)); // 18% opacity
+        gc.setLineWidth(1);
+
+        double cellWidth  = BRICK_SIZE + gamePanel.getHgap();
+        double cellHeight = BRICK_SIZE + gamePanel.getVgap();
+
+        double width  = cols * cellWidth  - gamePanel.getHgap();
+        double height = rows * cellHeight - gamePanel.getVgap();
+
+        // vertical lines
+        for (int c = 0; c <= cols; c++) {
+            double x = c * cellWidth;
+            gc.strokeLine(x, 0, x, height);
+        }
+
+        // horizontal lines
+        for (int r = 0; r <= rows; r++) {
+            double y = r * cellHeight;
+            gc.strokeLine(0, y, width, y);
+        }
     }
 
 
@@ -257,33 +302,23 @@ public class GuiController implements Initializable {
 
     private void refreshBrick(ViewData brick) {
         if (!isPause.get()) {
-            //active piece position
-            brickPanel.setLayoutX(
-                    gamePanel.getLayoutX()
-                            + brick.getxPosition() * brickPanel.getVgap()
-                            + brick.getxPosition() * BRICK_SIZE
-            );
-            brickPanel.setLayoutY(
-                    -42 + gamePanel.getLayoutY()
-                            + brick.getyPosition() * brickPanel.getHgap()
-                            + brick.getyPosition() * BRICK_SIZE
-            );
+            double cellWidth  = BRICK_SIZE + gamePanel.getHgap();
+            double cellHeight = BRICK_SIZE + gamePanel.getVgap();
 
-            //ghost piece position (same X, lower Y)
+            int visibleY      = brick.getyPosition()      - 2;
+            int visibleGhostY = brick.getGhostYPosition() - 2;
+
+            // active piece
+            brickPanel.setTranslateX(brick.getxPosition() * cellWidth);
+            brickPanel.setTranslateY(visibleY * cellHeight);
+
+            // ghost piece
             if (ghostPanel != null && ghostRects != null) {
-                ghostPanel.setLayoutX(
-                        gamePanel.getLayoutX()
-                                + brick.getxPosition() * ghostPanel.getVgap()
-                                + brick.getxPosition() * BRICK_SIZE
-                );
-                ghostPanel.setLayoutY(
-                        -42 + gamePanel.getLayoutY()
-                                + brick.getGhostYPosition() * ghostPanel.getHgap()
-                                + brick.getGhostYPosition() * BRICK_SIZE
-                );
+                ghostPanel.setTranslateX(brick.getxPosition() * cellWidth);
+                ghostPanel.setTranslateY(visibleGhostY * cellHeight);
             }
 
-            //update shapes for active & ghost
+            // update cell colours
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     int value = brick.getBrickData()[i][j];
@@ -294,7 +329,6 @@ public class GuiController implements Initializable {
                 }
             }
 
-            //update "next" block preview
             int[][] nextData = brick.getNextBrickData();
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -303,6 +337,9 @@ public class GuiController implements Initializable {
             }
         }
     }
+
+
+
 
 
     public void refreshGameBackground(int[][] board) {
@@ -327,7 +364,7 @@ public class GuiController implements Initializable {
             if (base instanceof Color) {
                 Color c = (Color) base;
                 rectangle.setFill(
-                        Color.color(c.getRed(), c.getGreen(), c.getBlue(), 0.25) // 25% opacity
+                        Color.color(c.getRed(), c.getGreen(), c.getBlue(), 0.40) // 40% opacity
                 );
             } else {
                 rectangle.setFill(base);
@@ -336,7 +373,6 @@ public class GuiController implements Initializable {
         rectangle.setArcHeight(9);
         rectangle.setArcWidth(9);
     }
-
 
     private void moveDown(MoveEvent event) {
         if (!isPause.get()) {
@@ -364,12 +400,9 @@ public class GuiController implements Initializable {
             notificationPanel.showScore(groupNotification.getChildren());
         }
 
-        //Board background should already be refreshed by GameController; we just update piece + ghost + next
         refreshBrick(downData.getViewData());
-
         gamePanel.requestFocus();
     }
-
 
     public void setEventListener(InputEventListener eventListener) {
         this.eventListener = eventListener;
@@ -382,7 +415,6 @@ public class GuiController implements Initializable {
     public void bindHighScore(IntegerProperty highProp) {
         highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
     }
-
 
     public void gameOver() {
         if (timeLine != null) {

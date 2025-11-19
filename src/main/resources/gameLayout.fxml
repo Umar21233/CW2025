@@ -5,17 +5,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.StackPane?>
+
 
 <Pane fx:controller="com.comp2042.GuiController"
       xmlns:fx="http://javafx.com/fxml">
 
-    <GridPane fx:id="ghostPanel" vgap="1" hgap="1"/>
-
-    <GridPane fx:id="brickPanel" vgap="1" hgap="1"/>
-
     <BorderPane styleClass="gameBoard" fx:id="gameBoard">
         <center>
-            <GridPane fx:id="gamePanel" hgap="1" vgap="1" layoutY="30" layoutX="40"/>
+            <!--All board layers share the SAME StackPane -->
+            <StackPane>
+
+                <!-- 1) Background grid -->
+                <Canvas fx:id="gridCanvas"/>
+
+                <!-- 2) Landed blocks (background board) -->
+                <GridPane fx:id="gamePanel" hgap="1" vgap="1"/>
+
+                <!-- 3) Ghost piece -->
+                <GridPane fx:id="ghostPanel" hgap="1" vgap="1"/>
+
+                <!-- 4) Active falling piece -->
+                <GridPane fx:id="brickPanel" hgap="1" vgap="1"/>
+
+            </StackPane>
         </center>
     </BorderPane>
 
@@ -33,15 +47,12 @@
     <VBox fx:id="rightBar" spacing="12" layoutX="340" layoutY="20"
           alignment="TOP_LEFT" styleClass="vbox">
 
-        <!-- Live labels -->
         <Label fx:id="scoreLabel" text="Score: 0" styleClass="scoreClass"/>
         <Label fx:id="highLabel"  text="High Score: 0"  styleClass="scoreClass"/>
 
-        <!-- Next piece preview -->
         <Label text="Next Block:" styleClass="nextBrickLabel"/>
         <Pane fx:id="nextPane" prefWidth="100" prefHeight="100" styleClass="nextBrick"/>
 
-        <!-- Buttons -->
         <HBox spacing="8">
             <Button fx:id="btnPlay"
                     text="Play Again"

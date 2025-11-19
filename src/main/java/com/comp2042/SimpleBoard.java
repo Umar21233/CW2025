@@ -110,12 +110,18 @@ public class SimpleBoard implements Board {
         Brick currentBrick = brickGenerator.getBrick();
         brickRotator.setBrick(currentBrick);
 
-        // Restore old spawn logic
-        int spawnX = width / 2 - 2;
-        int spawnY = 10;   // <<< THIS is what makes it appear inside screen like before
+        // 10 columns wide → spawn roughly in the center
+        int spawnX = width / 2 - 2; // 10/2 - 2 = 3
+        if (spawnX < 0) {
+            spawnX = 0;
+        }
+
+        // Just below the two hidden rows (0 and 1)
+        int spawnY = 2;
 
         currentOffset = new Point(spawnX, spawnY);
 
+        // If new brick immediately collides, that means GAME OVER
         return MatrixOperations.intersect(
                 currentGameMatrix,
                 brickRotator.getCurrentShape(),
@@ -123,6 +129,8 @@ public class SimpleBoard implements Board {
                 currentOffset.y
         );
     }
+
+
 
 
     @Override
