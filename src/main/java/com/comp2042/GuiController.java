@@ -133,7 +133,7 @@ public class GuiController implements Initializable {
         double cellHeight = BRICK_SIZE + gamePanel.getVgap();
 
         double canvasWidth  = cols * cellWidth  - gamePanel.getHgap();
-        double canvasHeight = visibleRows * cellHeight - gamePanel.getVgap();
+        double canvasHeight = visibleRows * cellHeight - gamePanel.getVgap() - 3.5;  //hardcoded to fix a gap
 
         gridCanvas.setWidth(canvasWidth);
         gridCanvas.setHeight(canvasHeight);
@@ -269,7 +269,7 @@ public class GuiController implements Initializable {
         double cellHeight = BRICK_SIZE + gamePanel.getVgap();
 
         double width  = cols * cellWidth  - gamePanel.getHgap();
-        double height = rows * cellHeight - gamePanel.getVgap();
+        double height = rows * cellHeight;
 
         // vertical lines
         for (int c = 0; c <= cols; c++) {
