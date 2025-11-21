@@ -2,6 +2,15 @@ package com.comp2042.model;
 
 import com.comp2042.logic.MatrixOperations;
 
+/**
+ - Immutable data snapshot passed from the game logic layer to the UI.
+ - Contains the active brick matrix, its position, the next brick preview,
+   and the ghost piece vertical position.
+ - This class performs defensive copies to prevent accidental mutation
+   of internal game state by the UI.
+ */
+
+
 public final class ViewData {
 
     private final int[][] brickData;

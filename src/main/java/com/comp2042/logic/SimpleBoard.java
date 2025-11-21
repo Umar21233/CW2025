@@ -9,6 +9,12 @@ import com.comp2042.model.ViewData;
 
 import java.awt.*;
 
+/**
+ - Core game logic and authoritative game state.
+ - Handles movement, collision detection, line clearing, ghost piece,
+ brick spawning, and score updates. Does not perform any UI work.
+ */
+
 public class SimpleBoard implements Board {
 
     private final int width;
@@ -108,21 +114,19 @@ public class SimpleBoard implements Board {
         }
     }
 
+    //SRP
+    private Point getSpawnPoint() {
+        int spawnX = width / 2 - 2;
+        if (spawnX < 0) spawnX = 0;
+        return new Point(spawnX, 2);
+    }
+
     @Override
     public boolean createNewBrick() {
         Brick currentBrick = brickGenerator.getBrick();
         brickRotator.setBrick(currentBrick);
 
-        // 10 columns wide → spawn roughly in the center
-        int spawnX = width / 2 - 2; // 10/2 - 2 = 3
-        if (spawnX < 0) {
-            spawnX = 0;
-        }
-
-        // Just below the two hidden rows (0 and 1)
-        int spawnY = 2;
-
-        currentOffset = new Point(spawnX, spawnY);
+        currentOffset = getSpawnPoint();
 
         // If new brick immediately collides, that means GAME OVER
         return MatrixOperations.intersect(
@@ -138,9 +142,14 @@ public class SimpleBoard implements Board {
 
     @Override
     public int[][] getBoardMatrix() {
-        return currentGameMatrix;
+        return MatrixOperations.copy(currentGameMatrix);  //protects game state from ui modifying it
     }
 
+
+    /**
+     - Computes how far the active brick can drop before collision.
+     - Used only for ghost piece rendering.
+     */
     //helper to compute ghost Y for the current brick
     private int computeGhostY() {
         int[][] fieldCopy = MatrixOperations.copy(currentGameMatrix);

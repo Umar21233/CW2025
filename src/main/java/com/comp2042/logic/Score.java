@@ -3,6 +3,16 @@ package com.comp2042.logic;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ - Manages all scoring logic for the Tetris game.
+ - This class encapsulates the current score, high score, and total lines cleared.
+ - UI layers access score values via read-only JavaFX properties,
+ while game logic updates the score strictly through controlled methods
+ (add, addLines, reset), ensuring proper encapsulation and preventing misuse.
+ */
+
+
+
 public final class Score {
 
     private final IntegerProperty score = new SimpleIntegerProperty(0);

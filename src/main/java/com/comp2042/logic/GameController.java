@@ -6,6 +6,14 @@ import com.comp2042.model.MoveEvent;
 import com.comp2042.model.ViewData;
 import com.comp2042.ui.GuiController;
 
+/**
+ - Acts as the controller for core gameplay actions.
+ - Receives input events from the UI and delegates all game logic
+  to the Board implementation. Ensures UI never directly modifies
+  game state, maintaining clean separation of responsibilities.
+ */
+
+
 public class GameController implements InputEventListener {
 
     private final Board board = new SimpleBoard(10, 25);
