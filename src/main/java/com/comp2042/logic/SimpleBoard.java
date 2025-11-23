@@ -150,23 +150,17 @@ public class SimpleBoard implements Board {
      - Computes how far the active brick can drop before collision.
      - Used only for ghost piece rendering.
      */
-    //helper to compute ghost Y for the current brick
     private int computeGhostY() {
-        int[][] fieldCopy = MatrixOperations.copy(currentGameMatrix);
-        int[][] shape = brickRotator.getCurrentShape();
-
-        int ghostY = currentOffset.y;
-
-        //Drop until the next step would collide
-        while (!MatrixOperations.intersect(fieldCopy, shape, currentOffset.x, ghostY + 1)) {
-            ghostY++;
-            //safety break: don't go below board
-            if (ghostY >= height - 1) {
-                break;
-            }
-        }
-        return ghostY;
+        return GhostCalculator.computeGhostY(
+                currentGameMatrix,
+                brickRotator.getBrick(),
+                currentOffset.x,
+                currentOffset.y,
+                height,
+                brickRotator.getCurrentShapeIndex()
+        );
     }
+
 
     @Override
     public ViewData getViewData() {
