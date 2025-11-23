@@ -33,5 +33,16 @@ public class BrickRotator {
         this.brick = brick;
         this.currentShape = 0;
     }
+
+    public int getCurrentShapeIndex() {
+        return currentShape;
+    }
+
+
+    //added so getbrick works in SimpleBoard
+    public Brick getBrick() {
+        return brick;
+    }
+
 }
 
