@@ -289,6 +289,7 @@ public class GuiController implements Initializable {
 
         dangerLine.setWidth(canvasWidth);
         dangerLine.setTranslateY(-198);
+
     }
 
 
