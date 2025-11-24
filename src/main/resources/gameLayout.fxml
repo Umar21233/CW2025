@@ -9,10 +9,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-
-
-
-
 <Pane fx:controller="com.comp2042.ui.GuiController"
       xmlns:fx="http://javafx.com/fxml">
 
@@ -47,7 +43,7 @@
 
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
-            <GameOverPanel fx:id="gameOverPanel"/>
+            <GameOverPanel fx:id="gameOverPanel" styleClass="gameOverStyle"/>
         </VBox>
     </Group>
 
