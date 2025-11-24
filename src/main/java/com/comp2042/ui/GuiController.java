@@ -62,6 +62,12 @@ public class GuiController implements Initializable {
     @FXML
     private Button btnPlay, btnPause, btnSettings;
 
+    @FXML
+    private Rectangle dangerLine;   //for gameover boundary line
+    private Timeline dangerLineFlashTimeline;
+
+    private double canvasWidth;
+
     private Rectangle[][] displayMatrix;
     private InputEventListener eventListener;
     private Rectangle[][] rectangles;
@@ -122,7 +128,35 @@ public class GuiController implements Initializable {
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
+
+        setupFlashingDangerLine();
+
     }
+
+    private void setupFlashingDangerLine() {
+        // Set the width and position of the danger line
+        dangerLine.setWidth(canvasWidth);
+        dangerLine.setTranslateY(-198);  // Adjust this position as needed
+
+        // Create the Timeline for flashing effect
+        dangerLineFlashTimeline = new Timeline(
+                new KeyFrame(
+                        Duration.seconds(0.5), // Flash every 0.5 seconds
+                        event -> toggleDangerLine() // Toggle opacity
+                )
+        );
+        dangerLineFlashTimeline.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+        dangerLineFlashTimeline.play(); // Start flashing the danger line
+    }
+
+    private void toggleDangerLine() {
+        if (dangerLine.getOpacity() == 1.0) {
+            dangerLine.setOpacity(0);  // Make it invisible
+        } else {
+            dangerLine.setOpacity(1.0);  // Make it visible
+        }
+    }
+
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
 
@@ -252,6 +286,9 @@ public class GuiController implements Initializable {
         isGameOver.set(false);
         btnPause.setDisable(false);
         btnPause.setText("Pause");
+
+        dangerLine.setWidth(canvasWidth);
+        dangerLine.setTranslateY(-198);
     }
 
 
@@ -379,6 +416,7 @@ public class GuiController implements Initializable {
     private void moveDown(MoveEvent event) {
         if (!isPause.get()) {
             DownData downData = eventListener.onDownEvent(event);
+
             if (downData.getClearRow() != null &&
                     downData.getClearRow().getLinesRemoved() > 0) {
                 NotificationPanel notificationPanel =
@@ -419,6 +457,10 @@ public class GuiController implements Initializable {
     }
 
     public void gameOver() {
+        if (dangerLineFlashTimeline != null) {
+            dangerLineFlashTimeline.stop();  // Stop flashing when game is over
+        }
+
         if (timeLine != null) {
             timeLine.stop();
         }
@@ -447,6 +489,7 @@ public class GuiController implements Initializable {
         isGameOver.set(false);
         btnPause.setDisable(false);
         btnPause.setText("Pause");
+
     }
 
     public void pauseGame(ActionEvent actionEvent) {

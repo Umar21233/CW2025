@@ -7,6 +7,10 @@
 <?import java.net.URL?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+
 
 
 <Pane fx:controller="com.comp2042.ui.GuiController"
@@ -19,6 +23,14 @@
 
                 <!-- 1) Background grid -->
                 <Canvas fx:id="gridCanvas"/>
+
+                <!-- GAME OVER BOUNDARY LINE -->
+                <Rectangle fx:id="dangerLine"
+                           height="2"
+                           fill="red"
+                           opacity="0.8"
+                           visible="true"/>
+
 
                 <!-- 2) Landed blocks (background board) -->
                 <GridPane fx:id="gamePanel" hgap="1" vgap="1"/>
