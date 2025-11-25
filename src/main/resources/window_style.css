@@ -84,5 +84,14 @@
     -fx-text-fill: #DFE34D;
 }
 
+/* New style to significantly increase score bonus text size */
+.notificationText {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 38px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #B50D0D, 15, 0.7, 0, 0); /* Yellow glow for visibility */
+}
+
 
 
