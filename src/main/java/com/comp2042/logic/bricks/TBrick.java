@@ -5,7 +5,7 @@ import com.comp2042.logic.MatrixOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-final class TBrick implements Brick {
+public final class TBrick implements Brick { //made it public so can be tested
 
     private final List<int[][]> brickMatrix = new ArrayList<>();
 
