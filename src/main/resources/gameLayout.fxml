@@ -40,7 +40,7 @@
     </stylesheets>
 
     <!-- Right sidebar -->
-    <VBox fx:id="rightBar" spacing="12" layoutX="300" layoutY="60" alignment="CENTER" styleClass="vbox">
+    <VBox fx:id="rightBar" spacing="12" layoutX="290" layoutY="60" alignment="CENTER" styleClass="vbox">
         <!-- Score Box -->
         <Pane styleClass="scoreBox">
             <Label fx:id="scoreLabel" text="Score: 0" layoutY="-7" styleClass="scoreClass"/>
