@@ -34,7 +34,6 @@ import java.util.ResourceBundle;
  */
 public class GuiController implements Initializable {
 
-    // FXML Injections (View Components)
     @FXML private GridPane ghostPanel;
     @FXML private GridPane brickPanel;
     @FXML private GridPane gamePanel;
@@ -46,21 +45,21 @@ public class GuiController implements Initializable {
     @FXML private Button btnPlay, btnPause, btnSettings;
     @FXML private Rectangle dangerLine;
 
-    // Timelines and Logic Links
+
     private Timeline dangerLineFlashTimeline;
     private Timeline timeLine;
     private InputEventListener eventListener;
 
-    // View Component Instances
+
     private PieceRenderer renderer;
     private GameBoardView gameBoardView;
     private NextPieceView nextPieceView;
 
-    // Dynamic Piece Management
+
     private Rectangle[][] activeRects;
     private Rectangle[][] ghostRects;
 
-    // State Properties
+
     private final BooleanProperty isPause = new SimpleBooleanProperty(false);
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(false);
 
@@ -72,14 +71,14 @@ public class GuiController implements Initializable {
 
         gameOverPanel.setVisible(false);
 
-        // Bind pause button text to the state property
+        //Bind pause button text to the state property
         btnPause.textProperty().bind(
                 Bindings.when(isPause)
                         .then("Resume")
                         .otherwise("Pause")
         );
 
-        // Apply a visual effect
+        //Apply a visual effect
         final Reflection reflection = new Reflection();
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
@@ -97,7 +96,7 @@ public class GuiController implements Initializable {
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
 
-        // Use lambda and fix for immutable MoveEvent (creating new event objects)
+        //Use lambda and fix for immutable MoveEvent (creating new event objects)
         gamePanel.setOnKeyPressed(keyEvent -> {
             if (!isPause.get() && !isGameOver.get()) {
                 KeyCode code = keyEvent.getCode();
@@ -144,31 +143,30 @@ public class GuiController implements Initializable {
         dangerLine.setOpacity(dangerLine.getOpacity() == 1.0 ? 0 : 1.0);
     }
 
-    // --- Game Initialization (Core of the "Play Again" logic) ---
 
     /**
      * Called by the game logic to fully initialize the view for a new game.
      */
     public void initGameView(int[][] boardMatrix, ViewData brick) {
 
-        // 1. Initialize Renderers and Views, ensuring old components are cleared
+        //Initialize Renderers and Views, ensuring old components are cleared
         this.renderer = new PieceRenderer();
         this.gameBoardView = new GameBoardView(gamePanel, gridCanvas, renderer, boardMatrix);
         this.nextPieceView = new NextPieceView(nextPane, renderer);
 
-        // 2. Set up initial active piece and ghost piece containers
+        //Set up initial active piece and ghost piece containers
         initPieceContainers(brick);
 
-        // 3. Update the next piece preview
+        //Update the next piece preview
         nextPieceView.update(brick.getNextBrickData());
 
-        // 4. Reset state and danger line
+        //Reset state and danger line
         isPause.set(false);
         isGameOver.set(false);
         btnPause.setDisable(false);
         dangerLine.setWidth(gridCanvas.getWidth());
 
-        // FIX: Restart danger line flashing (it was stopped in gameOver())
+
         if (dangerLineFlashTimeline != null) {
             dangerLineFlashTimeline.play();
             dangerLine.setOpacity(1.0); // Ensure it starts visible
@@ -179,11 +177,11 @@ public class GuiController implements Initializable {
     }
 
     private void initPieceContainers(ViewData brick) {
-        // Clear previous active brick and ghost rectangles
+        //Clear previous active brick and ghost rectangles
         brickPanel.getChildren().clear();
         ghostPanel.getChildren().clear();
 
-        // Falling brick (active piece)
+        //Falling brick (active piece)
         activeRects = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -194,7 +192,7 @@ public class GuiController implements Initializable {
             }
         }
 
-        // Ghost brick
+        //Ghost brick
         ghostRects = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -220,8 +218,6 @@ public class GuiController implements Initializable {
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
-
-    // --- Refresh and Update ---
 
     public void refreshGameBackground(int[][] board) {
         if (gameBoardView != null) {
@@ -264,8 +260,6 @@ public class GuiController implements Initializable {
         }
     }
 
-    // --- Game Action Methods ---
-
     private void showScoreNotification(int scoreBonus) {
         if (scoreBonus > 0) {
             NotificationPanel notificationPanel = new NotificationPanel("+" + scoreBonus);
@@ -295,8 +289,6 @@ public class GuiController implements Initializable {
         refreshBrick(downData.getViewData());
         gamePanel.requestFocus();
     }
-
-    // --- Bindings and State Changes ---
 
     public void setEventListener(InputEventListener eventListener) {
         this.eventListener = eventListener;
@@ -334,12 +326,20 @@ public class GuiController implements Initializable {
         // This triggers the model reset and callback to initGameView
         eventListener.createNewGame();
 
-        // FIX: Explicitly recreate and start the game loop here,
-        // ensuring the timeline is playing regardless of the callback timing.
+        isPause.set(false);
+        isGameOver.set(false);
+        btnPause.setDisable(false);
+
+        if (dangerLineFlashTimeline != null) {
+            dangerLineFlashTimeline.play();
+            dangerLine.setOpacity(1.0);
+        }
+
         startGameTimeline();
 
         gamePanel.requestFocus();
     }
+
 
     public void pauseGame(ActionEvent actionEvent) {
         if (timeLine == null || isGameOver.get()) {

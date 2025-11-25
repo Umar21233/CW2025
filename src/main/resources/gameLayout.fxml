@@ -31,7 +31,7 @@
 
     <Group fx:id="groupNotification" layoutX="0" layoutY="150">
         <VBox alignment="CENTER">
-            <GameOverPanel fx:id="gameOverPanel" styleClass="gameOverStyle"/>
+            <GameOverPanel fx:id="gameOverPanel" styleClass="gameOverStyle" layoutX="500"/>
         </VBox>
     </Group>
 
@@ -61,4 +61,3 @@
     </VBox>
 
 </Pane>
-
