@@ -25,23 +25,23 @@ public class MainMenuController {
     @FXML
     private void startGame() {
         try {
-            // 1. Load the Game's FXML (game layout)
+            //Load the Game's FXML (game layout)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameLayout.fxml"));
             Pane gameRoot = loader.load();
 
-            // 2. Retrieve the automatically created GuiController instance
+            //Retrieve the automatically created GuiController instance
             GuiController guiController = loader.getController();
 
-            // 3. Initialize the GameController, passing the required GuiController
+            //Initialize the GameController, passing the required GuiController
             GameController gameController = new GameController(guiController);
 
-            // 4. Create the new Scene and switch the Stage
-            Scene gameScene = new Scene(gameRoot, 600, 800); // Adjust size as needed
+            //Create the new Scene and switch the Stage
+            Scene gameScene = new Scene(gameRoot, 530, 520); // Adjust size as needed
             primaryStage.setScene(gameScene);
             primaryStage.setTitle("Tetris");
             primaryStage.show();
 
-            // 5. Ensure the game board takes focus for input
+            //Ensure the game board takes focus for input
             guiController.requestGameFocus();
 
         } catch (IOException e) {
