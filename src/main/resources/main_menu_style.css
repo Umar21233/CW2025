@@ -1,0 +1,17 @@
+.root {
+    -fx-background-image: url("tetris1.jpeg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.button {
+    -fx-font-size: 16px;
+    -fx-background-color: #333;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #555;
+}
