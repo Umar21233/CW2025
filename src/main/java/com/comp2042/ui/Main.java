@@ -24,7 +24,7 @@ public class Main extends Application {
 
         //Set primary stage to show the main menu
         primaryStage.setTitle("TetrisJFX - Main Menu");
-        Scene scene = new Scene(root, 600, 800); // Adjusted size to match your FXML/Game size
+        Scene scene = new Scene(root, 600, 790); // Adjusted size to match your FXML/Game size
         primaryStage.setScene(scene);
         primaryStage.show();
 

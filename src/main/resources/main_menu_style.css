@@ -1,11 +1,12 @@
 .root {
-    -fx-background-image: url("tetris1.jpeg");
+    -fx-background-image: url("tetris4.png");
     -fx-background-size: cover;
     -fx-background-position: center;
 }
 
 .button {
-    -fx-font-size: 16px;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 18px;
     -fx-background-color: #333;
     -fx-text-fill: white;
     -fx-padding: 10px;
@@ -14,4 +15,41 @@
 
 .button:hover {
     -fx-background-color: #555;
+}
+
+/* Entire dialog pane frame */
+.dialog-pane {
+    -fx-background-color: #1a1a1a !important;  /* SOLID background fix */
+    -fx-border-color: #504ED0;
+    -fx-border-width: 3px;
+}
+
+/* Header area */
+.dialog-pane > .header-panel {
+    -fx-background-color: #1a1a1a;
+}
+
+.dialog-pane > .header-panel .label {
+    -fx-font-family: "Impact", sans-serif;
+    -fx-font-size: 18px;
+    -fx-text-fill: #DFE34D;
+}
+
+/* Content text container */
+.dialog-pane .content {
+    -fx-background-color: #1a1a1a;
+    -fx-padding: 15px;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 14px;
+    -fx-text-fill: #EFEFEF;
+}
+
+/* Dialog buttons area */
+.dialog-pane .button-bar {
+    -fx-background-color: #1a1a1a;
+}
+
+/* OK button inside dialog */
+.dialog-pane .button {
+    -fx-font-family: "Impact", sans-serif;
 }

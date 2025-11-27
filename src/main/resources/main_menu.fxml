@@ -15,20 +15,20 @@
     <ImageView fitWidth="600.0" fitHeight="800.0" preserveRatio="false" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <image>
             <!-- Assuming 'tetris.png' is in src/main/resources/images/ -->
-            <Image url="@../resources/tetris1.jpeg"/>
+            <Image url="@../resources/tetris4.png"/>
         </image>
     </ImageView>
 
     <!-- Main Menu Buttons - Using AnchorPane constraints for layout -->
 
     <Button fx:id="btnPlay" text="Play" onAction="#startGame"
-            prefWidth="100.0" AnchorPane.topAnchor="300.0" AnchorPane.leftAnchor="250.0"/>
+            prefWidth="150.0" AnchorPane.topAnchor="350.0" AnchorPane.leftAnchor="230.0"/>
 
     <Button fx:id="btnHelp" text="Help" onAction="#showHelp"
-            prefWidth="100.0" AnchorPane.topAnchor="350.0" AnchorPane.leftAnchor="250.0"/>
+            prefWidth="150.0" AnchorPane.topAnchor="430.0" AnchorPane.leftAnchor="230.0"/>
 
     <Button fx:id="btnExit" text="Exit" onAction="#exitGame"
-            prefWidth="100.0" AnchorPane.topAnchor="400.0" AnchorPane.leftAnchor="250.0"/>
+            prefWidth="150.0" AnchorPane.topAnchor="510.0" AnchorPane.leftAnchor="230.0"/>
 
     <!-- Optional: Link external CSS if needed -->
     <stylesheets>
