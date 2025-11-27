@@ -36,7 +36,8 @@ public class GuiController implements Initializable {
 
     @FXML private GridPane ghostPanel;
     @FXML private GridPane brickPanel;
-    @FXML private GridPane gamePanel;
+    @FXML
+    GridPane gamePanel;
     @FXML private Canvas gridCanvas;
     @FXML private Group groupNotification;
     @FXML private GameOverPanel gameOverPanel;
@@ -314,6 +315,11 @@ public class GuiController implements Initializable {
         isPause.set(false);
         btnPause.setDisable(true);
     }
+
+    public void requestGameFocus() {
+        gamePanel.requestFocus();
+    }
+
 
     public void newGame(ActionEvent actionEvent) {
         // Stop any currently running timeline
