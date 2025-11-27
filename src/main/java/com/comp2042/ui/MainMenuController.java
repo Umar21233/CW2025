@@ -36,7 +36,7 @@ public class MainMenuController {
             GameController gameController = new GameController(guiController);
 
             //Create the new Scene and switch the Stage
-            Scene gameScene = new Scene(gameRoot, 530, 520); // Adjust size as needed
+            Scene gameScene = new Scene(gameRoot, 690, 640); // Adjust size as needed
             primaryStage.setScene(gameScene);
             primaryStage.setTitle("Tetris");
             primaryStage.show();
