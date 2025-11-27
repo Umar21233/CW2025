@@ -240,7 +240,7 @@ public class GuiController implements Initializable {
         brickPanel.setTranslateY(visibleY * cellHeight);
 
         ghostPanel.setTranslateX(brick.getxPosition() * cellWidth);
-        ghostPanel.setTranslateY(visibleGhostY * cellHeight);
+        ghostPanel.setTranslateY((visibleGhostY * cellHeight)-1.5); //hardcoded to fix ghostpiece overlapping with border
     }
 
     private void refreshBrick(ViewData brick) {
