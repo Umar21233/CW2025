@@ -18,6 +18,7 @@ public final class Score {
     private final IntegerProperty score = new SimpleIntegerProperty(0);
     private final IntegerProperty highScore = new SimpleIntegerProperty(0);
     private final IntegerProperty totalLines = new SimpleIntegerProperty(0);
+    private final IntegerProperty level = new SimpleIntegerProperty(1);
 
     public IntegerProperty scoreProperty() {
         return score;
@@ -29,6 +30,10 @@ public final class Score {
 
     public IntegerProperty totalLinesProperty() {
         return totalLines;
+    }
+
+    public IntegerProperty levelProperty() {
+        return level;
     }
 
     public int getScore() {
@@ -43,9 +48,22 @@ public final class Score {
         return totalLines.get();
     }
 
+    public int getLevel() {
+        return level.get();
+    }
+
     private void updateHighScore() {
         if (score.get() > highScore.get()) {
             highScore.set(score.get());
+        }
+    }
+
+    private void updateLevel() {
+        //Calculate level based on total lines cleared
+        //Every 10 lines = next level, max level 10
+        int newLevel = Math.min((totalLines.get() / Constants.LINES_PER_LEVEL) + 1, Constants.MAX_LEVEL);
+        if (newLevel != level.get()) {
+            level.set(newLevel);
         }
     }
 
@@ -62,13 +80,15 @@ public final class Score {
             return;
         }
         totalLines.set(totalLines.get() + lines);
+
+        updateLevel();
     }
 
 
     public void reset() {
         score.set(0);
         totalLines.set(0);
-
+        level.set(1);
     }
 
 }

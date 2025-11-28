@@ -3,6 +3,21 @@
     -fx-background-image: url("background_image.png");
 }
 
+/* Level Label */
+.levelLabel {
+    -fx-font-family: "Impact", "Arial Black", sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFD700;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 6, 0.5, 0, 2);
+    -fx-padding: 8 15 8 15;
+    -fx-background-color: rgba(18, 18, 24, 0.9);
+    -fx-background-radius: 6px;
+    -fx-border-color: #2D3561;
+    -fx-border-width: 2px;
+    -fx-border-radius: 6px;
+}
+
 /* Game Board */
 .gameBoard {
     -fx-border-color: #2D3561;

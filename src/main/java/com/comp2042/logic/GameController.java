@@ -18,6 +18,7 @@ public class GameController implements InputEventListener {
 
     private final Board board = new SimpleBoard(10, 25);
     private final GuiController viewGuiController;
+    private int previousLevel = 1;
 
     public GameController(GuiController c) {
         viewGuiController = c;
@@ -28,6 +29,10 @@ public class GameController implements InputEventListener {
         //Bind current score + high score to sidebar labels
         viewGuiController.bindScore(board.getScore().scoreProperty());
         viewGuiController.bindHighScore(board.getScore().highScoreProperty());
+        viewGuiController.bindLevel(board.getScore().levelProperty());
+
+        //Set initial game speed
+        viewGuiController.updateGameSpeed(Constants.LEVEL_SPEED[0]);
     }
 
     @Override
@@ -44,6 +49,9 @@ public class GameController implements InputEventListener {
                 if (lines > 0) {
                     board.getScore().add(clearRow.getScoreBonus());
                     board.getScore().addLines(lines);
+
+                    //Check if level changed and update speed
+                    checkLevelChange();
                 }
             }
 
@@ -90,6 +98,8 @@ public class GameController implements InputEventListener {
         if (clearRow != null && clearRow.getLinesRemoved() > 0) {
             board.getScore().add(clearRow.getScoreBonus());
             board.getScore().addLines(clearRow.getLinesRemoved());
+
+            checkLevelChange();
         }
 
         //Spawn new piece, check game over
@@ -107,6 +117,19 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         board.newGame();
+        this.previousLevel = 1;
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
+
+        viewGuiController.updateGameSpeed(Constants.LEVEL_SPEED[0]);
+    }
+
+    private void checkLevelChange() {
+        int currentLevel = board.getScore().getLevel();
+        if (currentLevel != previousLevel) {
+            previousLevel = currentLevel;
+            //Update game speed based on new level (level 1 = index 0)
+            int speedIndex = Math.min(currentLevel - 1, Constants.LEVEL_SPEED.length - 1);
+            viewGuiController.updateGameSpeed(Constants.LEVEL_SPEED[speedIndex]);
+        }
     }
 }
