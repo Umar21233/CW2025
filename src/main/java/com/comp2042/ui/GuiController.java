@@ -24,7 +24,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,7 +47,7 @@ public class GuiController implements Initializable {
     @FXML private GameOverPanel gameOverPanel;
     @FXML private Label scoreLabel, highLabel;
     @FXML private Pane nextPane;
-    @FXML private Button btnPlay, btnPause, btnSettings;
+    @FXML private Button btnPlay, btnPause, btnMainMenu;
     @FXML private Rectangle dangerLine;
 
 
@@ -60,6 +64,7 @@ public class GuiController implements Initializable {
     private Rectangle[][] activeRects;
     private Rectangle[][] ghostRects;
 
+    private Stage primaryStage;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty(false);
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(false);
@@ -316,6 +321,10 @@ public class GuiController implements Initializable {
         btnPause.setDisable(true);
     }
 
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+    }
+
     public void requestGameFocus() {
         gamePanel.requestFocus();
     }
@@ -360,5 +369,50 @@ public class GuiController implements Initializable {
             isPause.set(true);
         }
         gamePanel.requestFocus();
+    }
+
+    @FXML
+    private void goToMainMenu() {
+        // 1. Stop the game loop
+        if (timeLine != null) {
+            timeLine.stop();
+        }
+
+        // 2. Stop the danger line flashing
+        if (dangerLineFlashTimeline != null) {
+            dangerLineFlashTimeline.stop();
+        }
+
+        // 3. Ensure Stage exists before switching
+        if (primaryStage == null) {
+            System.err.println("Error: Primary Stage not set in GuiController.");
+            return;
+        }
+
+        try {
+            // 4. Load the Main Menu FXML (using the resource root path)
+            URL menuUrl = getClass().getResource("/main_menu.fxml");
+            if (menuUrl == null) {
+                System.err.println("FATAL ERROR: Could not find main_menu.fxml resource.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(menuUrl);
+            Parent root = loader.load();
+
+            // 5. Get the MainMenuController to hand control (and the Stage) back
+            MainMenuController mainMenuController = loader.getController();
+            mainMenuController.setPrimaryStage(primaryStage);
+
+            // 6. Switch the Scene
+            Scene menuScene = new Scene(root, 600, 790); //use original menu dimensions
+            primaryStage.setScene(menuScene);
+            primaryStage.setTitle("Tetris Main Menu");
+            primaryStage.show();
+
+        } catch (IOException e) {
+            System.err.println("Error returning to main menu: Cannot load main_menu.fxml");
+            e.printStackTrace();
+        }
     }
 }

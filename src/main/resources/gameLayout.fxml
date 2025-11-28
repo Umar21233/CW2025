@@ -62,9 +62,9 @@
 
         <!-- Controls -->
         <VBox spacing="10" alignment="CENTER" styleClass="controlsContainer">
-            <Button fx:id="btnPlay" text="PLAY AGAIN" onAction="#newGame" styleClass="gameButton, playButton" prefWidth="220"/>
-            <Button fx:id="btnPause" text="PAUSE" onAction="#pauseGame" styleClass="gameButton, pauseButton" prefWidth="220"/>
-            <Button fx:id="btnSettings" text="SETTINGS" disable="true" styleClass="gameButton, settingsButton" prefWidth="220"/>
+            <Button fx:id="btnPlay" text="Play Again" onAction="#newGame" styleClass="gameButton, playButton" prefWidth="220"/>
+            <Button fx:id="btnPause" text="Pause" onAction="#pauseGame" styleClass="gameButton, pauseButton" prefWidth="220"/>
+            <Button fx:id="btnMainMenu" text="Main Menu" onAction="#goToMainMenu" styleClass="gameButton, mainMenuButton" prefWidth="220"/>
         </VBox>
 
     </VBox>

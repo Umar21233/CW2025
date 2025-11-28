@@ -32,6 +32,8 @@ public class MainMenuController {
             //Retrieve the automatically created GuiController instance
             GuiController guiController = loader.getController();
 
+            guiController.setPrimaryStage(primaryStage);
+
             //Initialize the GameController, passing the required GuiController
             GameController gameController = new GameController(guiController);
 
