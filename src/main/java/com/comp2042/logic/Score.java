@@ -70,4 +70,5 @@ public final class Score {
         totalLines.set(0);
 
     }
+
 }
