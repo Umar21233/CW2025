@@ -22,14 +22,9 @@
         </image>
     </ImageView>
 
-    <!-- Title -->
-    <Label text="AUDIO SETTINGS" styleClass="settingsTitle"
-           AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-           alignment="CENTER" prefWidth="600.0"/>
-
     <!-- Audio Controls Container -->
     <VBox spacing="30" alignment="CENTER" styleClass="audioControlsContainer"
-          AnchorPane.topAnchor="200.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+          AnchorPane.topAnchor="150.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
 
         <!-- Music Section -->
         <VBox spacing="15" styleClass="audioSection">

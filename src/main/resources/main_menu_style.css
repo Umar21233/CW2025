@@ -46,7 +46,7 @@
 
 /* Audio Controls Container */
 .audioControlsContainer {
-    -fx-background-color: rgba(20, 20, 30, 0.85);
+    -fx-background-color: #14141A;
     -fx-background-radius: 10px;
     -fx-border-color: #2D3561;
     -fx-border-width: 3px;
@@ -82,7 +82,7 @@
     -fx-font-family: "Consolas", monospace;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFD700;
+    -fx-text-fill: #FFFFFF;
     -fx-min-width: 45px;
 }
 

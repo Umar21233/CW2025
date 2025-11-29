@@ -21,14 +21,10 @@
         </image>
     </ImageView>
 
-    <!-- Title -->
-    <Label text="SETTINGS" styleClass="settingsTitle"
-           AnchorPane.topAnchor="120.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-           alignment="CENTER" prefWidth="600.0"/>
 
     <!-- Settings Buttons -->
     <VBox spacing="20" alignment="CENTER"
-          AnchorPane.topAnchor="280.0" AnchorPane.leftAnchor="225.0">
+          AnchorPane.topAnchor="400.0" AnchorPane.leftAnchor="225.0">
 
         <Button fx:id="btnAudio" text="Audio" onAction="#openAudioSettings"
                 prefWidth="150.0" styleClass="settingsButton"/>
