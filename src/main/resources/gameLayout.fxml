@@ -18,8 +18,12 @@
         <URL value="@window_style.css"/>
     </stylesheets>
 
+
+    <Label fx:id="levelLabel" text="LEVEL 1" styleClass="levelLabel"
+           layoutX="110" layoutY="40"/>
+
     <!-- Game Board -->
-    <BorderPane fx:id="gameBoard" styleClass="gameBoard" layoutX="50" layoutY="40">
+    <BorderPane fx:id="gameBoard" styleClass="gameBoard" layoutX="50" layoutY="110">
         <center>
             <StackPane>
                 <!-- Background grid -->
@@ -70,7 +74,7 @@
     </VBox>
 
     <!-- Game Over Overlay -->
-    <Group fx:id="groupNotification" layoutX="55">
+    <Group fx:id="groupNotification" layoutX="55" layoutY="50">
         <StackPane prefWidth="210" prefHeight="600">
             <VBox alignment="CENTER">
                 <GameOverPanel fx:id="gameOverPanel" styleClass="gameOverStyle"/>

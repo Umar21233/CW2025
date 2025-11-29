@@ -45,7 +45,7 @@ public class GuiController implements Initializable {
     @FXML private Canvas gridCanvas;
     @FXML private Group groupNotification;
     @FXML private GameOverPanel gameOverPanel;
-    @FXML private Label scoreLabel, highLabel;
+    @FXML private Label scoreLabel, highLabel, levelLabel;
     @FXML private Pane nextPane;
     @FXML private Button btnPlay, btnPause, btnMainMenu;
     @FXML private Rectangle dangerLine;
@@ -54,6 +54,7 @@ public class GuiController implements Initializable {
     private Timeline dangerLineFlashTimeline;
     private Timeline timeLine;
     private InputEventListener eventListener;
+    private int currentGameSpeed = 400;
 
 
     private PieceRenderer renderer;
@@ -218,11 +219,19 @@ public class GuiController implements Initializable {
         }
 
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
+                Duration.millis(currentGameSpeed),
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
+    }
+
+    public void updateGameSpeed(int newSpeed) {
+        this.currentGameSpeed = newSpeed;
+        if (timeLine != null && !isPause.get() && !isGameOver.get()) {
+            //Restart timeline with new speed
+            startGameTimeline();
+        }
     }
 
     public void refreshGameBackground(int[][] board) {
@@ -306,6 +315,10 @@ public class GuiController implements Initializable {
 
     public void bindHighScore(IntegerProperty highProp) {
         highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
+    }
+
+    public void bindLevel(IntegerProperty levelProp) {
+        levelLabel.textProperty().bind(Bindings.format("LEVEL %d", levelProp));
     }
 
     public void gameOver() {

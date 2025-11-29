@@ -12,15 +12,17 @@ public final class Constants {
     public static final int INITIAL_TICK = 400;
 
     // Leveling
-    public static final int LINES_PER_LEVEL = 10;
+    public static final int LINES_PER_LEVEL = 5;
     public static final int MAX_LEVEL = 10;
 
     public static final int[] LEVEL_SPEED = {
-            400, 350, 300, 260, 230,
-            200, 170, 150, 130, 120
+            400, 320, 256, 205, 164,
+            131, 105, 84, 67, 54
+
+            //a constant 20% decrease each level
     };
 
-    // Score for clearing lines
+    //Score for clearing lines
     public static final int[] SCORE_LINE_CLEAR = {
             0,    // 0 lines
             50,   // 1 line
