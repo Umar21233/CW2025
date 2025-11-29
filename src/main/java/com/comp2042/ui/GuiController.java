@@ -31,6 +31,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import com.comp2042.audio.AudioManager;
+import com.comp2042.audio.SoundEffect;
 
 /**
  * Controller class managing high-level UI interaction, state, and delegating
@@ -55,6 +57,7 @@ public class GuiController implements Initializable {
     private Timeline timeLine;
     private InputEventListener eventListener;
     private int currentGameSpeed = 400;
+    private AudioManager audioManager;
 
 
     private PieceRenderer renderer;
@@ -72,6 +75,7 @@ public class GuiController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        audioManager = AudioManager.getInstance();
         loadCustomFont();
         setupInputHandling();
         setupFlashingDangerLine();
@@ -115,6 +119,7 @@ public class GuiController implements Initializable {
                     refreshBrick(eventListener.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
                     keyEvent.consume();
                 } else if (code == KeyCode.UP || code == KeyCode.W) {
+                    audioManager.playSound(SoundEffect.PIECE_ROTATE);
                     refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
                     keyEvent.consume();
                 } else if (code == KeyCode.DOWN || code == KeyCode.S) {
@@ -287,8 +292,11 @@ public class GuiController implements Initializable {
         if (isPause.get() || isGameOver.get()) return;
 
         DownData downData = eventListener.onDownEvent(event);
-        if (downData.getClearRow() != null) {
+        if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
+            audioManager.playSound(SoundEffect.LINE_CLEAR);
             showScoreNotification(downData.getClearRow().getScoreBonus());
+        } else if (downData.isPieceLanded()) { // Play drop sound only if piece landed and no lines cleared
+            audioManager.playSound(SoundEffect.PIECE_DROP);
         }
         refreshBrick(downData.getViewData());
         gamePanel.requestFocus();
@@ -298,8 +306,11 @@ public class GuiController implements Initializable {
         if (isGameOver.get()) return;
 
         DownData downData = eventListener.onHardDrop(event);
-        if (downData.getClearRow() != null) {
+        if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
+            audioManager.playSound(SoundEffect.LINE_CLEAR);
             showScoreNotification(downData.getClearRow().getScoreBonus());
+        } else {
+            audioManager.playSound(SoundEffect.PIECE_DROP);
         }
         refreshBrick(downData.getViewData());
         gamePanel.requestFocus();
@@ -328,6 +339,9 @@ public class GuiController implements Initializable {
         if (timeLine != null) {
             timeLine.stop();
         }
+
+        audioManager.playSound(SoundEffect.GAME_OVER);
+
         gameOverPanel.setVisible(true);
         isGameOver.set(true);
         isPause.set(false);
@@ -344,6 +358,8 @@ public class GuiController implements Initializable {
 
 
     public void newGame(ActionEvent actionEvent) {
+        audioManager.playSound(SoundEffect.BUTTON_CLICK);
+
         // Stop any currently running timeline
         if (timeLine != null) {
             timeLine.stop();
@@ -374,11 +390,15 @@ public class GuiController implements Initializable {
             return;
         }
 
+        audioManager.playSound(SoundEffect.BUTTON_CLICK);
+
         if (isPause.get()) {
             timeLine.play();
+            audioManager.resumeMusic();
             isPause.set(false);
         } else {
             timeLine.pause();
+            audioManager.pauseMusic();
             isPause.set(true);
         }
         gamePanel.requestFocus();
@@ -386,6 +406,8 @@ public class GuiController implements Initializable {
 
     @FXML
     private void goToMainMenu() {
+        audioManager.playSound(SoundEffect.BUTTON_CLICK);
+
         // 1. Stop the game loop
         if (timeLine != null) {
             timeLine.stop();
@@ -417,10 +439,15 @@ public class GuiController implements Initializable {
             MainMenuController mainMenuController = loader.getController();
             mainMenuController.setPrimaryStage(primaryStage);
 
+            audioManager.playMenuMusic();
+
             // 6. Switch the Scene
             Scene menuScene = new Scene(root, 600, 790); //use original menu dimensions
             primaryStage.setScene(menuScene);
             primaryStage.setTitle("Tetris Main Menu");
+            primaryStage.setWidth(600);
+            primaryStage.setHeight(790);
+            primaryStage.centerOnScreen();
             primaryStage.show();
 
         } catch (IOException e) {

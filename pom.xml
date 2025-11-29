@@ -25,6 +25,13 @@
             <artifactId>javafx-fxml</artifactId>
             <version>21.0.6</version>
         </dependency>
+        <!-- ADD THIS DEPENDENCY FOR AUDIO SUPPORT -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>21.0.5</version>
+            <classifier>win</classifier>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<AnchorPane fx:controller="com.comp2042.ui.AudioSettingsController"
+            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="800.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Background image -->
+    <ImageView fitWidth="600.0" fitHeight="800.0" preserveRatio="false"
+               AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0">
+        <image>
+            <Image url="@../resources/tetris4.png"/>
+        </image>
+    </ImageView>
+
+    <!-- Title -->
+    <Label text="AUDIO SETTINGS" styleClass="settingsTitle"
+           AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+           alignment="CENTER" prefWidth="600.0"/>
+
+    <!-- Audio Controls Container -->
+    <VBox spacing="30" alignment="CENTER" styleClass="audioControlsContainer"
+          AnchorPane.topAnchor="200.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+
+        <!-- Music Section -->
+        <VBox spacing="15" styleClass="audioSection">
+            <Label text="BACKGROUND MUSIC" styleClass="audioSectionTitle"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <CheckBox fx:id="musicToggle" text="Enable Music" styleClass="audioCheckbox"/>
+            </HBox>
+
+            <VBox spacing="8">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Volume:" styleClass="audioLabel"/>
+                    <Label fx:id="musicVolumeLabel" text="50%" styleClass="audioVolumeLabel"/>
+                </HBox>
+                <Slider fx:id="musicVolumeSlider" min="0" max="100" value="50"
+                        showTickMarks="false" showTickLabels="false"
+                        styleClass="audioSlider" prefWidth="380"/>
+            </VBox>
+        </VBox>
+
+        <!-- Sound Effects Section -->
+        <VBox spacing="15" styleClass="audioSection">
+            <Label text="SOUND EFFECTS" styleClass="audioSectionTitle"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <CheckBox fx:id="sfxToggle" text="Enable Sound Effects" styleClass="audioCheckbox"/>
+            </HBox>
+
+            <VBox spacing="8">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Volume:" styleClass="audioLabel"/>
+                    <Label fx:id="sfxVolumeLabel" text="70%" styleClass="audioVolumeLabel"/>
+                </HBox>
+                <Slider fx:id="sfxVolumeSlider" min="0" max="100" value="70"
+                        showTickMarks="false" showTickLabels="false"
+                        styleClass="audioSlider" prefWidth="380"/>
+            </VBox>
+
+            <Button fx:id="btnTestSound" text="Test Sound" onAction="#testSound"
+                    styleClass="testSoundButton" prefWidth="120"/>
+        </VBox>
+
+        <!-- Back Button -->
+        <Button fx:id="btnBack" text="Back" onAction="#backToSettings"
+                styleClass="settingsButton" prefWidth="150"/>
+
+    </VBox>
+
+    <stylesheets>
+        <URL value="@main_menu_style.css"/>
+    </stylesheets>
+
+</AnchorPane>

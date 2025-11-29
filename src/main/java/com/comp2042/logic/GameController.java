@@ -63,7 +63,7 @@ public class GameController implements InputEventListener {
         }
 
         //normal soft drop doesn’t need the board in DownData
-        return new DownData(clearRow, board.getViewData());
+        return new DownData(clearRow, board.getViewData(), !canMove);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class GameController implements InputEventListener {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
 
         //For hard drop we also pass the board matrix (if GUI ever wants it)
-        return new DownData(clearRow, board.getViewData(), board.getBoardMatrix());
+        return new DownData(clearRow, board.getViewData(), board.getBoardMatrix(), true);
     }
 
     @Override

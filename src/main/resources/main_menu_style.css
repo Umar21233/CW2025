@@ -17,6 +17,124 @@
     -fx-background-color: #555;
 }
 
+/* Settings Title */
+.settingsTitle {
+    -fx-font-family: "Impact", "Arial Black", sans-serif;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFD700;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 8, 0.6, 0, 3);
+}
+
+/* Settings Buttons */
+.settingsButton {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 18px;
+    -fx-background-color: rgba(51, 51, 51, 0.9);
+    -fx-text-fill: white;
+    -fx-padding: 12px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #555;
+    -fx-border-width: 2px;
+}
+
+.settingsButton:hover {
+    -fx-background-color: rgba(85, 85, 85, 0.9);
+    -fx-border-color: #777;
+}
+
+/* Audio Controls Container */
+.audioControlsContainer {
+    -fx-background-color: rgba(20, 20, 30, 0.85);
+    -fx-background-radius: 10px;
+    -fx-border-color: #2D3561;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-padding: 30px;
+}
+
+/* Audio Section */
+.audioSection {
+    -fx-background-color: rgba(30, 30, 40, 0.7);
+    -fx-background-radius: 8px;
+    -fx-padding: 20px;
+    -fx-border-color: rgba(100, 100, 120, 0.4);
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+.audioSectionTitle {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4ECCA3;
+    -fx-letter-spacing: 1.5px;
+}
+
+.audioLabel {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #CCCCCC;
+}
+
+.audioVolumeLabel {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFD700;
+    -fx-min-width: 45px;
+}
+
+.audioCheckbox {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #EEEEEE;
+}
+
+.audioCheckbox .box {
+    -fx-background-color: rgba(40, 40, 50, 0.8);
+    -fx-border-color: #555;
+    -fx-border-width: 2px;
+    -fx-border-radius: 3px;
+}
+
+.audioCheckbox:selected .mark {
+    -fx-background-color: #4ECCA3;
+}
+
+/* Audio Slider */
+.audioSlider .track {
+    -fx-background-color: rgba(60, 60, 70, 0.8);
+    -fx-background-radius: 5px;
+}
+
+.audioSlider .thumb {
+    -fx-background-color: #4ECCA3;
+    -fx-background-radius: 8px;
+}
+
+.audioSlider .thumb:hover {
+    -fx-background-color: #5EFCB3;
+}
+
+/* Test Sound Button */
+.testSoundButton {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-color: #5C6BC0;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.testSoundButton:hover {
+    -fx-background-color: #6B7AD6;
+}
+
+
 /* Entire dialog pane frame */
 .dialog-pane {
     -fx-background-color: #1a1a1a !important;  /* SOLID background fix */
