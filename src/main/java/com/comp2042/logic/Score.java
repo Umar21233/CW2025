@@ -20,6 +20,12 @@ public final class Score {
     private final IntegerProperty totalLines = new SimpleIntegerProperty(0);
     private final IntegerProperty level = new SimpleIntegerProperty(1);
 
+    public Score() {
+        //Load high score from disk when Score is created
+        int savedHighScore = HighScorePersistence.loadHighScore();
+        highScore.set(savedHighScore);
+    }
+
     public IntegerProperty scoreProperty() {
         return score;
     }
@@ -55,6 +61,8 @@ public final class Score {
     private void updateHighScore() {
         if (score.get() > highScore.get()) {
             highScore.set(score.get());
+            //Save to disk immediately when high score is beaten
+            HighScorePersistence.saveHighScore(highScore.get());
         }
     }
 

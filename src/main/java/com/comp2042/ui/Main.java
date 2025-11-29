@@ -1,5 +1,6 @@
 package com.comp2042.ui;
 
+import com.comp2042.audio.AudioManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,6 +31,20 @@ public class Main extends Application {
 
         //Set primaryStage in the controller to allow switching scenes later
         controller.setPrimaryStage(primaryStage);
+
+        //Handle application close - cleanup audio
+        primaryStage.setOnCloseRequest(event -> {
+            AudioManager.getInstance().dispose();
+        });
+    }
+
+    @Override
+    public void stop() throws Exception {
+        //Called when application is closing
+        //High score is already saved in Score.updateHighScore()
+        //Just cleanup audio
+        AudioManager.getInstance().dispose();
+        super.stop();
     }
 
     public static void main(String[] args) {
