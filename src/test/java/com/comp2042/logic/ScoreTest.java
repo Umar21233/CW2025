@@ -17,7 +17,7 @@ class ScoreTest {
 
     @BeforeEach
     void setUp() {
-        score = new Score();
+        score = new Score(false);
     }
 
     @Test
