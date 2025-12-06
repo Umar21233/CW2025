@@ -11,13 +11,33 @@ public class HelpDialog {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Game Controls");
         alert.setHeaderText("Control Help");
-        alert.setContentText("CONTROLS ASSIST:\n" +
-                "- ↓: Move piece down 1 row\n" +
-                "- ↑ or W: Rotate piece\n" +
-                "- Press Space: Hard Drop\n" +
-                "- ←/→ or A/D: Move piece left/right");
 
-        //APPLY CUSTOM CSS TO DIALOG
+        String helpText =
+                "CONTROLS:\n" +
+                        "  - ↓ : Move piece down 1 row\n" +
+                        "  - ↑ or W : Rotate piece\n" +
+                        "  - Space : Hard drop\n" +
+                        "  - ← / → or A / D : Move piece left/right\n" +
+                        "\n" +
+                        "SCORING (LINES CLEARED AT ONCE):\n" +
+                        "  - 0 lines  →  0 points\n" +
+                        "  - 1 line   →  50 points\n" +
+                        "  - 2 lines  →  150 points\n" +
+                        "  - 3 lines  →  300 points\n" +
+                        "  - 4 lines  →  500 points\n" +
+                        "\n" +
+                        "LEVELS:\n" +
+                        "  - Level increases every 5 lines cleared\n" +
+                        "  - Total of 10 levels available\n" +
+                        "\n" +
+                        "SETTINGS:\n" +
+                        "  - Toggle music and sound effects\n" +
+                        "  - Enable / disable ghost piece\n" +
+                        "  - Switch between different button themes\n";
+
+        alert.setContentText(helpText);
+
+        //apply custom CSS to helpdialogbox
         DialogPane dialogPane = alert.getDialogPane();
 
         //load CSS from resources (main_menu_style.css)
@@ -30,7 +50,6 @@ public class HelpDialog {
 
         //to prevent background bleed-through
         dialogPane.setStyle("-fx-background-color: #1a1a1a;");
-
 
         //show and wait for the user to close the dialog
         alert.showAndWait();

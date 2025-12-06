@@ -140,6 +140,7 @@
     -fx-background-color: #1a1a1a !important;  /* SOLID background fix */
     -fx-border-color: #504ED0;
     -fx-border-width: 3px;
+    -fx-min-height: 620;
 }
 
 /* Header area */
