@@ -38,7 +38,15 @@ import com.comp2042.audio.SoundEffect;
 /**
  * Controller class managing high-level UI interaction, state, and delegating
  * rendering responsibilities to dedicated view components (GameBoardView, NextPieceView).
+
+ * Design Patterns Used:
+ * - Observer Pattern: Uses GameSettings singleton to react to setting changes
+ * - MVC Pattern: Acts as controller between model (game logic) and view (UI)
+
+ * Controller class managing high-level UI interaction, state, and delegating
+ * rendering responsibilities to dedicated view components (GameBoardView, NextPieceView).
  */
+
 public class GuiController implements Initializable {
 
     @FXML private GridPane ghostPanel;

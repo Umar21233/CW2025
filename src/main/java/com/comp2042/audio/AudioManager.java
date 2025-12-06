@@ -10,6 +10,7 @@ import javafx.util.Duration;
 
 
 /**
+ * Works through a Singleton Design Pattern
  * Centralized audio manager for the Tetris game.
  * Handles background music and sound effects with volume control.
  */

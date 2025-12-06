@@ -13,7 +13,11 @@ import java.net.URL;
 
 /**
  * Controller for the Settings menu screen.
+ *
+ * Design Patterns Used:
+ * - Singleton Pattern: Accesses GameSettings and AudioManager singletons
  */
+
 public class SettingsController {
 
     @FXML

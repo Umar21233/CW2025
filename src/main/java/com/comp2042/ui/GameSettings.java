@@ -4,8 +4,12 @@ import java.util.prefs.Preferences;
 
 /**
  * Singleton class managing game settings with persistence.
- * Uses Java Preferences API to save settings between sessions.
+        * Uses Java Preferences API to save settings between sessions.
+ * Design Patterns Used:
+ * - Singleton Pattern: Ensures single instance manages all game settings
+ * - Persistence Pattern: Uses Java Preferences API for data persistence
  */
+
 public class GameSettings {
 
     private static GameSettings instance;
