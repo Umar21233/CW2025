@@ -447,10 +447,7 @@ public class GuiController implements Initializable {
             Scene menuScene = new Scene(root, 600, 790); //use original menu dimensions
             primaryStage.setScene(menuScene);
             primaryStage.setTitle("Tetris Main Menu");
-            primaryStage.setWidth(600);
-            primaryStage.setHeight(790);
-            primaryStage.centerOnScreen();
-            primaryStage.show();
+
 
         } catch (IOException e) {
             System.err.println("Error returning to main menu: Cannot load main_menu.fxml");

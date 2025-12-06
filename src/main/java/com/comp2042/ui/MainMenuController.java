@@ -26,7 +26,6 @@ public class MainMenuController {
     @FXML
     public void initialize() {
         audioManager = AudioManager.getInstance();
-        //Start playing menu music when menu loads
         audioManager.playMenuMusic();
     }
 
@@ -39,28 +38,20 @@ public class MainMenuController {
         try {
             audioManager.playSound(SoundEffect.BUTTON_CLICK);
 
-            //Load the Game's FXML (game layout)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gameLayout.fxml"));
             Pane gameRoot = loader.load();
 
-            //Retrieve the automatically created GuiController instance
             GuiController guiController = loader.getController();
-
             guiController.setPrimaryStage(primaryStage);
 
-            //Initialize the GameController, passing the required GuiController
             GameController gameController = new GameController(guiController);
 
-            //Switch to game music
             audioManager.playGameMusic();
 
-            //Create the new Scene and switch the Stage
-            Scene gameScene = new Scene(gameRoot, 690, 640); // Adjust size as needed
+            Scene gameScene = new Scene(gameRoot, 690, 640);
             primaryStage.setScene(gameScene);
             primaryStage.setTitle("Tetris");
-            primaryStage.show();
 
-            //Ensure the game board takes focus for input
             guiController.requestGameFocus();
 
         } catch (IOException e) {
@@ -71,7 +62,6 @@ public class MainMenuController {
 
     @FXML
     private void showHelp() {
-        // Show control help information in an alert dialog
         HelpDialog.showHelpDialog();
     }
 
@@ -95,7 +85,6 @@ public class MainMenuController {
             Scene settingsScene = new Scene(root, 600, 790);
             primaryStage.setScene(settingsScene);
             primaryStage.setTitle("Settings");
-            primaryStage.show();
 
         } catch (IOException e) {
             System.err.println("Error loading settings: " + e.getMessage());
@@ -105,7 +94,6 @@ public class MainMenuController {
 
     @FXML
     private void exitGame() {
-        // Close the application
         primaryStage.close();
     }
 }
