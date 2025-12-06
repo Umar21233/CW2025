@@ -1,6 +1,6 @@
 package com.comp2042.ui;
 
-import com.comp2042.ui.GameSettings;
+import javafx.scene.Scene;
 import com.comp2042.logic.*;
 import com.comp2042.model.*;
 import javafx.animation.KeyFrame;
@@ -165,31 +165,29 @@ public class GuiController implements Initializable {
      */
     public void initGameView(int[][] boardMatrix, ViewData brick) {
 
-        //Initialize Renderers and Views, ensuring old components are cleared
         this.renderer = new PieceRenderer();
         this.gameBoardView = new GameBoardView(gamePanel, gridCanvas, renderer, boardMatrix);
         this.nextPieceView = new NextPieceView(nextPane, renderer);
 
-        //Set up initial active piece and ghost piece containers
         initPieceContainers(brick);
-
-        //Update the next piece preview
         nextPieceView.update(brick.getNextBrickData());
 
-        //Reset state and danger line
         isPause.set(false);
         isGameOver.set(false);
         btnPause.setDisable(false);
         dangerLine.setWidth(gridCanvas.getWidth());
 
-
         if (dangerLineFlashTimeline != null) {
             dangerLineFlashTimeline.play();
-            dangerLine.setOpacity(1.0); // Ensure it starts visible
+            dangerLine.setOpacity(1.0);
+        }
+
+        // Apply theme when game view initializes
+        if (gamePanel != null && gamePanel.getScene() != null) {
+            ThemeManager.applyTheme(gamePanel.getScene());
         }
 
         startGameTimeline();
-
     }
 
     private void initPieceContainers(ViewData brick) {
@@ -418,24 +416,20 @@ public class GuiController implements Initializable {
 
         eventListener.onGameExit();
 
-        // 1. Stop the game loop
         if (timeLine != null) {
             timeLine.stop();
         }
 
-        // 2. Stop the danger line flashing
         if (dangerLineFlashTimeline != null) {
             dangerLineFlashTimeline.stop();
         }
 
-        // 3. Ensure Stage exists before switching
         if (primaryStage == null) {
             System.err.println("Error: Primary Stage not set in GuiController.");
             return;
         }
 
         try {
-            // 4. Load the Main Menu FXML (using the resource root path)
             URL menuUrl = getClass().getResource("/main_menu.fxml");
             if (menuUrl == null) {
                 System.err.println("FATAL ERROR: Could not find main_menu.fxml resource.");
@@ -445,14 +439,13 @@ public class GuiController implements Initializable {
             FXMLLoader loader = new FXMLLoader(menuUrl);
             Parent root = loader.load();
 
-            // 5. Get the MainMenuController to hand control (and the Stage) back
             MainMenuController mainMenuController = loader.getController();
             mainMenuController.setPrimaryStage(primaryStage);
 
             audioManager.playMenuMusic();
 
-            // 6. Switch the Scene
-            Scene menuScene = new Scene(root, 600, 790); //use original menu dimensions
+            Scene menuScene = new Scene(root, 600, 790);
+            ThemeManager.applyTheme(menuScene); 
             primaryStage.setScene(menuScene);
             primaryStage.setTitle("Tetris Main Menu");
 
@@ -462,4 +455,6 @@ public class GuiController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 }

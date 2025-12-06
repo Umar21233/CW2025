@@ -21,16 +21,19 @@
     </ImageView>
 
     <VBox spacing="20" alignment="CENTER"
-          AnchorPane.topAnchor="350.0" AnchorPane.leftAnchor="225.0">
+          AnchorPane.topAnchor="360.0" AnchorPane.leftAnchor="190.0">
 
         <Button fx:id="btnAudio" text="Audio" onAction="#openAudioSettings"
-                prefWidth="195.0" styleClass="settingsButton"/>
+                prefWidth="235.0" styleClass="settingsButton"/>
+
+        <Button fx:id="btnTheme" text="Button Theme: Dark" onAction="#cycleTheme"
+                prefWidth="235.0" styleClass="settingsButton"/>
 
         <Button fx:id="btnGhostMode" text="Ghost Mode: ON" onAction="#toggleGhostMode"
-                prefWidth="195.0" styleClass="settingsButton"/>
+                prefWidth="235.0" styleClass="settingsButton"/>
 
         <Button fx:id="btnBack" text="Back" onAction="#backToMainMenu"
-                prefWidth="195.0" styleClass="settingsButton"/>
+                prefWidth="235.0" styleClass="settingsButton"/>
     </VBox>
 
     <stylesheets>

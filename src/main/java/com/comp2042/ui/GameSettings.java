@@ -17,11 +17,11 @@ public class GameSettings {
 
     // Default values
     private static final boolean DEFAULT_GHOST_MODE = true;
-    private static final String DEFAULT_THEME = "DARK";
+    private static final Theme DEFAULT_THEME = Theme.DARK;
 
     // Current values
     private boolean ghostModeEnabled;
-    private String currentTheme;
+    private Theme currentTheme;
 
     private GameSettings() {
         prefs = Preferences.userNodeForPackage(GameSettings.class);
@@ -37,7 +37,8 @@ public class GameSettings {
 
     private void loadSettings() {
         ghostModeEnabled = prefs.getBoolean(GHOST_MODE_KEY, DEFAULT_GHOST_MODE);
-        currentTheme = prefs.get(THEME_KEY, DEFAULT_THEME);
+        String themeName = prefs.get(THEME_KEY, DEFAULT_THEME.name());
+        currentTheme = Theme.fromString(themeName);
     }
 
     // Ghost Mode
@@ -51,12 +52,12 @@ public class GameSettings {
     }
 
     // Theme
-    public String getCurrentTheme() {
+    public Theme getCurrentTheme() {
         return currentTheme;
     }
 
-    public void setCurrentTheme(String theme) {
+    public void setCurrentTheme(Theme theme) {
         this.currentTheme = theme;
-        prefs.put(THEME_KEY, theme);
+        prefs.put(THEME_KEY, theme.name());
     }
 }

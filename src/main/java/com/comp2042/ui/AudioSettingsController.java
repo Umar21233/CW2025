@@ -80,6 +80,9 @@ public class AudioSettingsController {
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
+        if (primaryStage != null && primaryStage.getScene() != null) {
+            ThemeManager.applyTheme(primaryStage.getScene());
+        }
     }
 
     @FXML
@@ -105,6 +108,7 @@ public class AudioSettingsController {
             controller.setPrimaryStage(primaryStage);
 
             Scene settingsScene = new Scene(root, 600, 790);
+            ThemeManager.applyTheme(settingsScene);
             primaryStage.setScene(settingsScene);
             primaryStage.setTitle("Settings");
             primaryStage.show();

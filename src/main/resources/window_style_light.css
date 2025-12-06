@@ -1,0 +1,41 @@
+/* LIGHT THEME – BUTTONS ONLY */
+
+.gameButton {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-radius: 999px;          /* soft pill buttons */
+    -fx-cursor: hand;
+    -fx-padding: 9 20 9 20;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0.3, 0, 2);
+}
+
+.gameButton:hover {
+    -fx-translate-y: -1px;
+    -fx-effect: dropshadow(gaussian, rgba(33, 150, 243, 0.3), 12, 0.3, 0, 4);
+}
+
+.gameButton:pressed {
+    -fx-translate-y: 0;
+    -fx-opacity: 0.85;
+}
+
+/* Individual button colors */
+
+.playButton {
+    -fx-background-color: linear-gradient(to right, #43a047, #66bb6a);   /* green */
+}
+
+.pauseButton {
+    -fx-background-color: linear-gradient(to right, #fb8c00, #ffb74d);   /* orange */
+}
+
+.mainMenuButton {
+    -fx-background-color: linear-gradient(to right, #1e88e5, #42a5f5);   /* blue */
+}
+
+.settingsButton:disabled {
+    -fx-opacity: 0.3;
+}

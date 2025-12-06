@@ -1,7 +1,6 @@
 package com.comp2042.ui;
 
 import com.comp2042.audio.AudioManager;
-import com.comp2042.ui.GameSettings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +16,32 @@ import java.net.URL;
  */
 public class SettingsController {
 
+    @FXML
+    private void cycleTheme() {
+        audioManager.playSound(com.comp2042.audio.SoundEffect.BUTTON_CLICK);
+
+        Theme currentTheme = gameSettings.getCurrentTheme();
+        Theme[] themes = Theme.values();
+
+        int currentIndex = currentTheme.ordinal();
+        int nextIndex = (currentIndex + 1) % themes.length;
+        Theme nextTheme = themes[nextIndex];
+
+        gameSettings.setCurrentTheme(nextTheme);
+        updateThemeButtonText();
+
+        // Apply theme instantly
+        if (btnTheme != null && btnTheme.getScene() != null) {
+            ThemeManager.applyTheme(btnTheme.getScene());
+        }
+    }
+
+    private void updateThemeButtonText() {
+        btnTheme.setText("Button Theme: " + gameSettings.getCurrentTheme().getDisplayName());
+    }
+
     @FXML private Button btnAudio;
+    @FXML private Button btnTheme;
     @FXML private Button btnGhostMode;
     @FXML private Button btnBack;
 
@@ -30,10 +54,15 @@ public class SettingsController {
         gameSettings = GameSettings.getInstance();
 
         updateGhostModeButtonText();
+        updateThemeButtonText();
     }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
+        // Apply theme when the stage is set
+        if (primaryStage != null && primaryStage.getScene() != null) {
+            ThemeManager.applyTheme(primaryStage.getScene());
+        }
     }
 
     @FXML
@@ -72,6 +101,7 @@ public class SettingsController {
             controller.setPrimaryStage(primaryStage);
 
             Scene audioScene = new Scene(root, 600, 790);
+            ThemeManager.applyTheme(audioScene); // Apply theme to the new scene
             primaryStage.setScene(audioScene);
             primaryStage.setTitle("Audio Settings");
 
@@ -99,6 +129,7 @@ public class SettingsController {
             controller.setPrimaryStage(primaryStage);
 
             Scene menuScene = new Scene(root, 600, 790);
+            ThemeManager.applyTheme(menuScene); // Apply theme to the new scene
             primaryStage.setScene(menuScene);
             primaryStage.setTitle("Tetris Main Menu");
 
