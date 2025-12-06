@@ -50,7 +50,8 @@ public class GameController implements InputEventListener {
                     board.getScore().add(clearRow.getScoreBonus());
                     board.getScore().addLines(lines);
 
-                    //Check if level changed and update speed
+                    viewGuiController.recordCombo(lines);
+
                     checkLevelChange();
                 }
             }
@@ -62,7 +63,6 @@ public class GameController implements InputEventListener {
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
         }
 
-        //normal soft drop doesn’t need the board in DownData
         return new DownData(clearRow, board.getViewData(), !canMove);
     }
 
@@ -98,6 +98,8 @@ public class GameController implements InputEventListener {
         if (clearRow != null && clearRow.getLinesRemoved() > 0) {
             board.getScore().add(clearRow.getScoreBonus());
             board.getScore().addLines(clearRow.getLinesRemoved());
+
+            viewGuiController.recordCombo(clearRow.getLinesRemoved());
 
             checkLevelChange();
         }

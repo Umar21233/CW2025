@@ -18,24 +18,20 @@ public class MainMenuController {
 
     @FXML private Button btnPlay;
     @FXML private Button btnHelp;
+    @FXML private Button btnStats;
     @FXML private Button btnExit;
 
     private Stage primaryStage;
     private AudioManager audioManager;
-    private GameSettings gameSettings;
 
     @FXML
     public void initialize() {
         audioManager = AudioManager.getInstance();
-        gameSettings = GameSettings.getInstance();
         audioManager.playMenuMusic();
     }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
-        if (primaryStage != null && primaryStage.getScene() != null) {
-            ThemeManager.applyTheme(primaryStage.getScene());
-        }
     }
 
     @FXML
@@ -47,6 +43,7 @@ public class MainMenuController {
             Pane gameRoot = loader.load();
 
             GuiController guiController = loader.getController();
+
             guiController.setPrimaryStage(primaryStage);
 
             GameController gameController = new GameController(guiController);
@@ -54,9 +51,9 @@ public class MainMenuController {
             audioManager.playGameMusic();
 
             Scene gameScene = new Scene(gameRoot, 690, 640);
-            ThemeManager.applyTheme(gameScene);
             primaryStage.setScene(gameScene);
             primaryStage.setTitle("Tetris");
+            primaryStage.show();
 
             guiController.requestGameFocus();
 
@@ -69,6 +66,33 @@ public class MainMenuController {
     @FXML
     private void showHelp() {
         HelpDialog.showHelpDialog();
+    }
+
+    @FXML
+    private void showStats() {
+        audioManager.playSound(SoundEffect.BUTTON_CLICK);
+
+        try {
+            URL statsUrl = getClass().getResource("/stats.fxml");
+            if (statsUrl == null) {
+                System.err.println("Cannot find stats.fxml");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(statsUrl);
+            Parent root = loader.load();
+
+            StatsController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);
+
+            Scene statsScene = new Scene(root, 600, 790);
+            primaryStage.setScene(statsScene);
+            primaryStage.setTitle("Player Statistics");
+
+        } catch (IOException e) {
+            System.err.println("Error loading stats: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -89,9 +113,9 @@ public class MainMenuController {
             controller.setPrimaryStage(primaryStage);
 
             Scene settingsScene = new Scene(root, 600, 790);
-            ThemeManager.applyTheme(settingsScene);
             primaryStage.setScene(settingsScene);
             primaryStage.setTitle("Settings");
+            primaryStage.show();
 
         } catch (IOException e) {
             System.err.println("Error loading settings: " + e.getMessage());

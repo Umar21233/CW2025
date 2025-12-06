@@ -27,13 +27,16 @@
     <Button fx:id="btnHelp" text="Help" onAction="#showHelp"
             prefWidth="150.0" AnchorPane.topAnchor="430.0" AnchorPane.leftAnchor="230.0"/>
 
-    <Button fx:id="btnSettings" text="Settings" onAction="#openSettings"
+    <Button fx:id="btnStats" text="Stats" onAction="#showStats"
             prefWidth="150.0" AnchorPane.topAnchor="510.0" AnchorPane.leftAnchor="230.0"/>
 
-    <Button fx:id="btnExit" text="Exit" onAction="#exitGame"
+    <Button fx:id="btnSettings" text="Settings" onAction="#openSettings"
             prefWidth="150.0" AnchorPane.topAnchor="590.0" AnchorPane.leftAnchor="230.0"/>
 
-    <!-- Optional: Link external CSS if needed -->
+    <Button fx:id="btnExit" text="Exit" onAction="#exitGame"
+            prefWidth="150.0" AnchorPane.topAnchor="670.0" AnchorPane.leftAnchor="230.0"/>
+
+
     <stylesheets>
         <URL value="@main_menu_style.css" />
     </stylesheets>

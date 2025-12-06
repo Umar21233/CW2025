@@ -81,12 +81,17 @@ public class GuiController implements Initializable {
 
     private GameSettings gameSettings;
 
+    private PlayerStats playerStats;
+    private int currentFinalScore = 0;
+    private int currentFinalLevel = 1;
+
     private final BooleanProperty isPause = new SimpleBooleanProperty(false);
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(false);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gameSettings = GameSettings.getInstance();
+        playerStats = PlayerStats.getInstance();
         audioManager = AudioManager.getInstance();
         loadCustomFont();
         setupInputHandling();
@@ -336,6 +341,10 @@ public class GuiController implements Initializable {
 
     public void bindScore(IntegerProperty scoreProp) {
         scoreLabel.textProperty().bind(Bindings.format("Score: %d", scoreProp));
+
+        scoreProp.addListener((obs, oldVal, newVal) -> {
+            currentFinalScore = newVal.intValue();
+        });
     }
 
     public void bindHighScore(IntegerProperty highProp) {
@@ -344,6 +353,10 @@ public class GuiController implements Initializable {
 
     public void bindLevel(IntegerProperty levelProp) {
         levelLabel.textProperty().bind(Bindings.format("LEVEL %d", levelProp));
+
+        levelProp.addListener((obs, oldVal, newVal) -> {
+            currentFinalLevel = newVal.intValue();
+        });
     }
 
     public void gameOver() {
@@ -356,10 +369,18 @@ public class GuiController implements Initializable {
 
         audioManager.playSound(SoundEffect.GAME_OVER);
 
+        playerStats.recordGameEnd(currentFinalScore, currentFinalLevel);
+
         gameOverPanel.setVisible(true);
         isGameOver.set(true);
         isPause.set(false);
         btnPause.setDisable(true);
+    }
+
+    public void recordCombo(int linesCleared) {
+        if (linesCleared > 0) {
+            playerStats.recordCombo(linesCleared);
+        }
     }
 
     public void setPrimaryStage(Stage stage) {
