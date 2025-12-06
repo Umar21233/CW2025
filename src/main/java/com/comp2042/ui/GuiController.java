@@ -1,5 +1,6 @@
 package com.comp2042.ui;
 
+import com.comp2042.ui.GameSettings;
 import com.comp2042.logic.*;
 import com.comp2042.model.*;
 import javafx.animation.KeyFrame;
@@ -70,11 +71,14 @@ public class GuiController implements Initializable {
 
     private Stage primaryStage;
 
+    private GameSettings gameSettings;
+
     private final BooleanProperty isPause = new SimpleBooleanProperty(false);
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(false);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        gameSettings = GameSettings.getInstance();
         audioManager = AudioManager.getInstance();
         loadCustomFont();
         setupInputHandling();
@@ -189,11 +193,10 @@ public class GuiController implements Initializable {
     }
 
     private void initPieceContainers(ViewData brick) {
-        //Clear previous active brick and ghost rectangles
         brickPanel.getChildren().clear();
         ghostPanel.getChildren().clear();
 
-        //Falling brick (active piece)
+        // Falling brick (active piece)
         activeRects = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -215,7 +218,10 @@ public class GuiController implements Initializable {
             }
         }
 
+        ghostPanel.setVisible(gameSettings.isGhostModeEnabled());
+
         updatePiecePositions(brick);
+
     }
 
     private void startGameTimeline() {
@@ -274,6 +280,8 @@ public class GuiController implements Initializable {
                 renderer.styleGhostRectangle(value, ghostRects[i][j]);
             }
         }
+
+        ghostPanel.setVisible(gameSettings.isGhostModeEnabled());
 
         if (nextPieceView != null) {
             nextPieceView.update(brick.getNextBrickData());
