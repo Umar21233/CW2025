@@ -1,0 +1,40 @@
+/* RETRO CRT THEME – BUTTONS ONLY */
+
+.gameButton {
+    -fx-font-family: "Courier New", monospace;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-padding: 8 16 8 16;
+    -fx-border-width: 1px;
+    -fx-border-radius: 0;
+}
+
+.gameButton:hover {
+    -fx-background-color: #ffd54f;
+}
+
+.gameButton:pressed {
+    -fx-background-color: #ffb300;
+}
+
+.playButton {
+    -fx-background-color: #ffbf00;
+    -fx-border-color: #ffea00;
+}
+
+.pauseButton {
+    -fx-background-color: #ff8f00;
+    -fx-border-color: #ffb74d;
+}
+
+.mainMenuButton {
+    -fx-background-color: #f57c00;
+    -fx-border-color: #ffb300;
+}
+
+.settingsButton:disabled {
+    -fx-opacity: 0.2;
+}

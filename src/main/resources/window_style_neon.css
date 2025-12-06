@@ -1,0 +1,43 @@
+/* NEON ARCADE THEME – BUTTONS ONLY */
+
+.gameButton {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 14px;
+    -fx-cursor: hand;
+    -fx-padding: 10 22 10 22;
+    -fx-border-width: 1px;
+    -fx-border-radius: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 12, 0.4, 0, 3);
+}
+
+.gameButton:hover {
+    -fx-translate-y: -1px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 110, 199, 0.8), 18, 0.7, 0, 4);
+}
+
+.gameButton:pressed {
+    -fx-translate-y: 0;
+    -fx-opacity: 0.85;
+}
+
+.playButton {
+    -fx-background-color: linear-gradient(to right, #00e676, #69f0ae);
+    -fx-border-color: #b9f6ca;
+}
+
+.pauseButton {
+    -fx-background-color: linear-gradient(to right, #ff9100, #ff5252);
+    -fx-border-color: #ffab91;
+}
+
+.mainMenuButton {
+    -fx-background-color: linear-gradient(to right, #7c4dff, #536dfe);
+    -fx-border-color: #b39ddb;
+}
+
+.settingsButton:disabled {
+    -fx-opacity: 0.25;
+}
