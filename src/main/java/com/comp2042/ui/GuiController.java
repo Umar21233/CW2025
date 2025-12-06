@@ -408,6 +408,8 @@ public class GuiController implements Initializable {
     private void goToMainMenu() {
         audioManager.playSound(SoundEffect.BUTTON_CLICK);
 
+        eventListener.onGameExit();
+
         // 1. Stop the game loop
         if (timeLine != null) {
             timeLine.stop();

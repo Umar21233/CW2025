@@ -18,4 +18,6 @@ public interface InputEventListener {
     DownData onHardDrop(MoveEvent event);
 
     void createNewGame();
+
+    void onGameExit();
 }

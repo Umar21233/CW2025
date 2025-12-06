@@ -123,6 +123,11 @@ public class GameController implements InputEventListener {
         viewGuiController.updateGameSpeed(Constants.LEVEL_SPEED[0]);
     }
 
+    @Override
+    public void onGameExit() {
+        board.getScore().add(0);
+    }
+
     private void checkLevelChange() {
         int currentLevel = board.getScore().getLevel();
         if (currentLevel != previousLevel) {
