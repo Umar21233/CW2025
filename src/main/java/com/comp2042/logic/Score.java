@@ -106,6 +106,10 @@ public final class Score {
     }
 
 
+    /**
+     * Resets the current game's score, lines, and level.
+     * The high score is intentionally not reset to maintain persistence across games.
+     */
     public void reset() {
         score.set(0);
         totalLines.set(0);
