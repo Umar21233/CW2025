@@ -1,9 +1,13 @@
 package com.comp2042.ui;
 
 /**
- * Strategy interface for different visual themes.
- * Each theme defines its own color scheme and styling.
+ * Enum representing available visual themes for the game.
+
+ * Design Patterns Used:
+ * - Strategy Pattern: Each theme represents a different visual strategy
+ * - Enum Pattern: Type-safe theme selection with predefined constants
  */
+
 public enum Theme {
     DARK("Dark", "window_style.css"),
     LIGHT("Light", "window_style_light.css"),
