@@ -1,6 +1,7 @@
 package com.comp2042.ui;
 
 import com.comp2042.audio.AudioManager;
+import com.comp2042.ui.GameSettings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,17 +18,40 @@ import java.net.URL;
 public class SettingsController {
 
     @FXML private Button btnAudio;
+    @FXML private Button btnGhostMode;
     @FXML private Button btnBack;
 
     private Stage primaryStage;
     private AudioManager audioManager;
+    private GameSettings gameSettings;
 
     public void initialize() {
         audioManager = AudioManager.getInstance();
+        gameSettings = GameSettings.getInstance();
+
+        updateGhostModeButtonText();
     }
 
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
+    }
+
+    @FXML
+    private void toggleGhostMode() {
+        audioManager.playSound(com.comp2042.audio.SoundEffect.BUTTON_CLICK);
+
+        boolean currentState = gameSettings.isGhostModeEnabled();
+        gameSettings.setGhostModeEnabled(!currentState);
+
+        updateGhostModeButtonText();
+    }
+
+    private void updateGhostModeButtonText() {
+        if (gameSettings.isGhostModeEnabled()) {
+            btnGhostMode.setText("Ghost Mode: ON");
+        } else {
+            btnGhostMode.setText("Ghost Mode: OFF");
+        }
     }
 
     @FXML
@@ -50,7 +74,6 @@ public class SettingsController {
             Scene audioScene = new Scene(root, 600, 790);
             primaryStage.setScene(audioScene);
             primaryStage.setTitle("Audio Settings");
-            primaryStage.show();
 
         } catch (IOException e) {
             System.err.println("Error loading audio settings: " + e.getMessage());
@@ -78,7 +101,6 @@ public class SettingsController {
             Scene menuScene = new Scene(root, 600, 790);
             primaryStage.setScene(menuScene);
             primaryStage.setTitle("Tetris Main Menu");
-            primaryStage.show();
 
         } catch (IOException e) {
             System.err.println("Error loading main menu: " + e.getMessage());
