@@ -5,5 +5,8 @@ package com.comp2042.model;
  * Events can originate from user input or from an internal game thread.
  */
 public enum EventSource {
-    USER, THREAD
+    /** Indicates that the event originated from user input. */
+    USER,
+    /** Indicates that the event originated from an internal game thread. */
+    THREAD
 }

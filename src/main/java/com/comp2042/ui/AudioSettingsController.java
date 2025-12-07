@@ -20,6 +20,14 @@ import java.net.URL;
  */
 public class AudioSettingsController {
 
+    /**
+     * Constructs an {@code AudioSettingsController}.
+     * This default constructor is provided to ensure Javadoc documentation.
+     */
+    public AudioSettingsController() {
+        // Default constructor
+    }
+
     @FXML private Slider musicVolumeSlider; // Slider for controlling music volume.
     @FXML private Slider sfxVolumeSlider; // Slider for controlling sound effects volume.
     @FXML private Label musicVolumeLabel; // Label displaying the current music volume percentage.

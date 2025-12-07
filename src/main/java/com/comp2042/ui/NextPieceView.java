@@ -82,6 +82,7 @@ public class NextPieceView {
 
     /**
      * Updates the colors of the next piece preview based on the piece data.
+     * @param nextData A 2D array representing the shape and color of the next piece.
      */
     public void update(int[][] nextData) {
         for (int r = 0; r < 4; r++) {

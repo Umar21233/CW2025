@@ -173,7 +173,7 @@ public class GameController implements InputEventListener {
 
     /**
      * Handles actions to be performed when the game exits.
-     * Currently adds a score of 0, which might be a placeholder or intended for saving state.
+     * Currently, adds a score of 0, which might be a placeholder or intended for saving state.
      */
     @Override
     public void onGameExit() {

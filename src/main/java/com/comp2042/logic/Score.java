@@ -52,38 +52,18 @@ public final class Score {
         }
     }
 
-    /**
-     * Returns the IntegerProperty for the current score, allowing UI elements to observe changes.
-     *
-     * @return The IntegerProperty for {@code score}.
-     */
     public IntegerProperty scoreProperty() {
         return score;
     }
 
-    /**
-     * Returns the IntegerProperty for the high score, allowing UI elements to observe changes.
-     *
-     * @return The IntegerProperty for {@code highScore}.
-     */
     public IntegerProperty highScoreProperty() {
         return highScore;
     }
 
-    /**
-     * Returns the IntegerProperty for the total lines cleared, allowing UI elements to observe changes.
-     *
-     * @return The IntegerProperty for {@code totalLines}.
-     */
     public IntegerProperty totalLinesProperty() {
         return totalLines;
     }
 
-    /**
-     * Returns the IntegerProperty for the current level, allowing UI elements to observe changes.
-     *
-     * @return The IntegerProperty for {@code level}.
-     */
     public IntegerProperty levelProperty() {
         return level;
     }
