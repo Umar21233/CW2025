@@ -57,6 +57,13 @@ The project relies on several key resource files for its UI, styling, and audio.
 
 ---
 
+## Documentation
+
+The project's Javadoc documentation can be accessed by opening `javadocs/index.html` directly in your web browser. This provides detailed API information for classes and methods.
+
+---
+
+
 ## Project Features and Implementation Details
 
 ### Implemented and Working Properly
@@ -266,3 +273,30 @@ Comprehensive JUnit tests are located under `src/test/java/com/comp2042/`.
 7.  **Immutable `MoveEvent` Misuse**: Fixed by creating a new `MoveEvent` object for each key press instead of reusing one.
 8.  **Alert Dialog Showing Game Background**: Fixed by applying custom CSS to the dialog pane to give it a solid background.
 9.  **Missing Labels Causing NPEs**: Fixed by adding the required `fx:id`s to the FXML files.
+
+---
+
+## Design Patterns Implemented
+
+The following design patterns have been utilized in the project:
+
+*   **Singleton Pattern**:
+    *   `GameSettings.java`: Ensures a single instance for managing game settings.
+    *   `AudioManager.java`: Guarantees a single instance for audio management.
+    *   `SettingsController.java`: Accesses singleton instances of other components.
+
+*   **Persistence Pattern**:
+    *   `GameSettings.java`: Uses Java Preferences API for data persistence.
+
+*   **Observer Pattern**:
+    *   `GuiController.java`: Implements the Observer pattern to react to changes in settings.
+
+*   **Strategy Pattern**:
+    *   `Theme.java`: Each enum constant represents a different visual strategy for themes.
+
+*   **Enum Pattern**:
+    *   `Theme.java`: Provides type-safe theme selection with predefined constants.
+
+---
+
+### New Java Classes
