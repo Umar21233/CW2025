@@ -14,26 +14,45 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Controller for the main menu of the TetrisJFX application.
+ * Manages navigation between different application screens (game, help, stats, settings).
+ */
 public class MainMenuController {
 
-    @FXML private Button btnPlay;
-    @FXML private Button btnHelp;
-    @FXML private Button btnStats;
-    @FXML private Button btnExit;
+    @FXML private Button btnPlay; // Button to start a new game.
+    @FXML private Button btnHelp; // Button to display game help and controls.
+    @FXML private Button btnStats; // Button to view player statistics.
+    @FXML private Button btnExit; // Button to exit the application.
 
+    /** The primary stage of the application, used for setting and displaying scenes. */
     private Stage primaryStage;
+    /** The audio manager instance for playing menu music and button click sound effects. */
     private AudioManager audioManager;
 
+    /**
+     * Initializes the controller after its root element has been completely processed.
+     * Starts playing menu background music.
+     */
     @FXML
     public void initialize() {
         audioManager = AudioManager.getInstance();
         audioManager.playMenuMusic();
     }
 
+    /**
+     * Sets the primary stage for this controller, allowing it to change scenes.
+     *
+     * @param stage The primary Stage of the application.
+     */
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
 
+    /**
+     * Handles the action to start a new game.
+     * Loads the game layout, initializes the game controller, and switches to the game scene.
+     */
     @FXML
     private void startGame() {
         try {
@@ -63,11 +82,18 @@ public class MainMenuController {
         }
     }
 
+    /**
+     * Displays the help dialog with game controls and information.
+     */
     @FXML
     private void showHelp() {
         HelpDialog.showHelpDialog();
     }
 
+    /**
+     * Handles the action to show player statistics.
+     * Plays a button click sound, loads the stats FXML, and switches to the stats scene.
+     */
     @FXML
     private void showStats() {
         audioManager.playSound(SoundEffect.BUTTON_CLICK);
@@ -95,6 +121,10 @@ public class MainMenuController {
         }
     }
 
+    /**
+     * Handles the action to open the game settings screen.
+     * Plays a button click sound, loads the settings FXML, and switches to the settings scene.
+     */
     @FXML
     private void openSettings() {
         audioManager.playSound(SoundEffect.BUTTON_CLICK);
@@ -123,6 +153,10 @@ public class MainMenuController {
         }
     }
 
+    /**
+     * Handles the action to exit the application.
+     * Closes the primary stage.
+     */
     @FXML
     private void exitGame() {
         primaryStage.close();

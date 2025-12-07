@@ -20,6 +20,12 @@ public class GameController implements InputEventListener {
     private final GuiController viewGuiController;
     private int previousLevel = 1;
 
+    /**
+     * Constructs a new GameController, initializing the game board and connecting it to the GUI.
+     * Sets up event listeners, binds score and level properties, and sets the initial game speed.
+     *
+     * @param c The GuiController responsible for rendering the game view and handling UI interactions.
+     */
     public GameController(GuiController c) {
         viewGuiController = c;
         board.createNewBrick();
@@ -35,6 +41,15 @@ public class GameController implements InputEventListener {
         viewGuiController.updateGameSpeed(Constants.LEVEL_SPEED[0]);
     }
 
+    /**
+     * Handles the event when the active brick attempts to move down.
+     * Manages brick merging, row clearing, score updates, level changes,
+     * and game over conditions.
+     *
+     * @param event The MoveEvent triggering the down action.
+     * @return A {@code DownData} object containing information about cleared rows,
+     *         current view data, and whether the brick was locked in place.
+     */
     @Override
     public DownData onDownEvent(MoveEvent event) {
         boolean canMove = board.moveBrickDown();
@@ -66,24 +81,51 @@ public class GameController implements InputEventListener {
         return new DownData(clearRow, board.getViewData(), !canMove);
     }
 
+    /**
+     * Handles the event when the active brick attempts to move left.
+     *
+     * @param event The MoveEvent triggering the left action.
+     * @return A {@code ViewData} object representing the updated game state for display.
+     */
     @Override
     public ViewData onLeftEvent(MoveEvent event) {
         board.moveBrickLeft();
         return board.getViewData();
     }
 
+    /**
+     * Handles the event when the active brick attempts to move right.
+     *
+     * @param event The MoveEvent triggering the right action.
+     * @return A {@code ViewData} object representing the updated game state for display.
+     */
     @Override
     public ViewData onRightEvent(MoveEvent event) {
         board.moveBrickRight();
         return board.getViewData();
     }
 
+    /**
+     * Handles the event when the active brick attempts to rotate.
+     *
+     * @param event The MoveEvent triggering the rotate action.
+     * @return A {@code ViewData} object representing the updated game state for display.
+     */
     @Override
     public ViewData onRotateEvent(MoveEvent event) {
         board.rotateLeftBrick();
         return board.getViewData();
     }
 
+    /**
+     * Handles the hard drop event, instantly moving the current brick down
+     * until it collides, then locks it in place.
+     * Manages row clearing, score updates, level changes, and game over conditions.
+     *
+     * @param event The MoveEvent triggering the hard drop action.
+     * @return A {@code DownData} object containing information about cleared rows,
+     *         current view data, the board matrix, and a flag indicating a hard drop.
+     */
     @Override
     public DownData onHardDrop(MoveEvent event) {
         // Move down until blocked
@@ -116,6 +158,10 @@ public class GameController implements InputEventListener {
         return new DownData(clearRow, board.getViewData(), board.getBoardMatrix(), true);
     }
 
+    /**
+     * Resets the game state to begin a new game.
+     * Initializes the board, resets the level, updates the GUI, and sets the initial game speed.
+     */
     @Override
     public void createNewGame() {
         board.newGame();
@@ -125,11 +171,19 @@ public class GameController implements InputEventListener {
         viewGuiController.updateGameSpeed(Constants.LEVEL_SPEED[0]);
     }
 
+    /**
+     * Handles actions to be performed when the game exits.
+     * Currently adds a score of 0, which might be a placeholder or intended for saving state.
+     */
     @Override
     public void onGameExit() {
         board.getScore().add(0);
     }
 
+    /**
+     * Checks if the game level has changed and, if so, updates the game speed
+     * accordingly based on the new level.
+     */
     private void checkLevelChange() {
         int currentLevel = board.getScore().getLevel();
         if (currentLevel != previousLevel) {

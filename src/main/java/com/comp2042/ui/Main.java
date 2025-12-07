@@ -10,8 +10,23 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The main entry point for the TetrisJFX application.
+ * This class extends {@code javafx.application.Application} and is responsible for
+ * initializing the primary stage and loading the main menu.
+ */
 public class Main extends Application {
 
+    /**
+     * The main entry point for all JavaFX applications.
+     * The start method is called after the init method has returned,
+     * and after the system is ready for the application to begin running.
+     *
+     * @param primaryStage The primary stage for this application, onto which
+     *                     the application scene can be set. The primary stage will be passed to the application
+     *                     constructor and will be the first stage shown.
+     * @throws Exception if something goes wrong.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -38,6 +53,12 @@ public class Main extends Application {
         });
     }
 
+    /**
+     * This method is called when the application should stop.
+     * Performs cleanup tasks, such as disposing audio resources.
+     *
+     * @throws Exception if something goes wrong during cleanup.
+     */
     @Override
     public void stop() throws Exception {
         //Called when application is closing
@@ -47,6 +68,13 @@ public class Main extends Application {
         super.stop();
     }
 
+    /**
+     * The main method is the entry point of the Java application.
+     * This method is not required for JavaFX applications that run on an embedded system
+     * or as applets. The launcher can be configured to call the {@code start} method directly.
+     *
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }

@@ -4,8 +4,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 
+/**
+ * A utility class for displaying a help dialog with game controls and scoring information.
+ * Uses JavaFX Alert to present informative content to the user.
+ */
 public class HelpDialog {
 
+    /**
+     * Displays a modal information dialog detailing game controls, scoring rules,
+     * leveling mechanics, and available settings.
+     * The dialog is styled using external CSS.
+     */
     public static void showHelpDialog() {
         //Create an Alert of type INFORMATION
         Alert alert = new Alert(AlertType.INFORMATION);

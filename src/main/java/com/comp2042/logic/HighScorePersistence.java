@@ -13,8 +13,17 @@ import java.nio.file.Paths;
  */
 public class HighScorePersistence {
 
+    /** The path to the high score data file within the resources folder. */
     private static final String HIGHSCORE_FILE = "HighScore/highscore.dat";
 
+    /**
+     * Determines the correct file path for the high score persistence file.
+     * It attempts to locate the file within the application's resources
+     * and creates the necessary directory structure if it doesn't exist.
+     * As a fallback, it uses the user's home directory.
+     *
+     * @return A File object representing the high score persistence file.
+     */
     private static File getHighScoreFile() {
         try {
             // Try to get the resource URL
@@ -44,8 +53,9 @@ public class HighScorePersistence {
     }
 
     /**
-     - Loads the high score from disk.
-     - Returns 0 if file doesn't exist or cannot be read.
+     * Loads the high score from the persistence file.
+     *
+     * @return The loaded high score, or 0 if the file does not exist or an error occurs during reading.
      */
     public static int loadHighScore() {
         File file = getHighScoreFile();
@@ -65,7 +75,12 @@ public class HighScorePersistence {
         }
     }
 
-    //saves high score to disk
+    /**
+     * Saves the provided high score to the persistence file.
+     * Creates parent directories if they do not exist.
+     *
+     * @param highScore The integer value of the high score to save.
+     */
     public static void saveHighScore(int highScore) {
         File file = getHighScoreFile();
 

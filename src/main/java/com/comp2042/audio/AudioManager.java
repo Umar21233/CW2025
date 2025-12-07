@@ -34,11 +34,21 @@ public class AudioManager {
     // Current music state
     private MusicType currentMusic = MusicType.NONE;
 
+    /**
+     * Private constructor to enforce Singleton pattern.
+     * Initializes the sound effect map and loads all audio resources.
+     */
     private AudioManager() {
         soundEffects = new HashMap<>();
         loadAudio();
     }
 
+    /**
+     * Returns the singleton instance of the AudioManager.
+     * If the instance does not exist, it will be created.
+     *
+     * @return The singleton instance of AudioManager.
+     */
     public static AudioManager getInstance() {
         if (instance == null) {
             instance = new AudioManager();
@@ -46,6 +56,10 @@ public class AudioManager {
         return instance;
     }
 
+    /**
+     * Loads all audio files (background music and sound effects) into the manager.
+     * Initializes media players and sets their initial volumes.
+     */
     private void loadAudio() {
         try {
             // Load background music
@@ -68,6 +82,13 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Loads a music file from the resources and prepares a MediaPlayer for it.
+     * The music will loop indefinitely.
+     *
+     * @param filename The name of the music file to load (e.g., "menu_music.wav").
+     * @return A configured MediaPlayer instance for the music, or null if loading fails.
+     */
     private MediaPlayer loadMusic(String filename) {
         try {
             URL resource = getClass().getClassLoader().getResource("audio/" + filename);
@@ -85,6 +106,13 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Loads a sound effect file from the resources and prepares a MediaPlayer for it.
+     * Sound effects are typically played once.
+     *
+     * @param filename The name of the sound effect file to load (e.g., "button_click.wav").
+     * @return A configured MediaPlayer instance for the sound effect, or null if loading fails.
+     */
     private MediaPlayer loadSound(String filename) {
         try {
             URL resource = getClass().getClassLoader().getResource("audio/" + filename);
@@ -102,6 +130,10 @@ public class AudioManager {
     }
 
     // Music Control
+    /**
+     * Stops any currently playing music and starts playing the menu background music.
+     * Music will only play if music is enabled in the settings.
+     */
     public void playMenuMusic() {
         stopAllMusic();
         if (musicEnabled && menuMusicPlayer != null) {
@@ -110,6 +142,10 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Stops any currently playing music and starts playing the game background music.
+     * Music will only play if music is enabled in the settings.
+     */
     public void playGameMusic() {
         stopAllMusic();
         if (musicEnabled && gameMusicPlayer != null) {
@@ -118,6 +154,10 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Stops all currently playing background music.
+     * Resets the current music state to NONE.
+     */
     public void stopAllMusic() {
         if (menuMusicPlayer != null) {
             menuMusicPlayer.stop();
@@ -128,6 +168,10 @@ public class AudioManager {
         currentMusic = MusicType.NONE;
     }
 
+    /**
+     * Pauses the currently playing background music.
+     * The music can be resumed later from where it left off.
+     */
     public void pauseMusic() {
         if (currentMusic == MusicType.MENU && menuMusicPlayer != null) {
             menuMusicPlayer.pause();
@@ -136,6 +180,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Resumes the previously paused background music, if music is enabled.
+     */
     public void resumeMusic() {
         if (musicEnabled) {
             if (currentMusic == MusicType.MENU && menuMusicPlayer != null) {
@@ -147,6 +194,13 @@ public class AudioManager {
     }
 
     // Sound Effects
+    /**
+     * Plays a specified sound effect.
+     * The sound effect will only play if sound effects are enabled in the settings.
+     * Each sound effect is reset to the beginning before playing.
+     *
+     * @param effect The SoundEffect enum representing the sound to play.
+     */
     public void playSound(SoundEffect effect) {
         if (!sfxEnabled) return;
 
@@ -159,16 +213,31 @@ public class AudioManager {
     }
 
     // Volume Control
+    /**
+     * Sets the global volume for all background music.
+     * The volume is clamped between 0.0 and 1.0.
+     *
+     * @param volume The desired music volume (0.0 to 1.0).
+     */
     public void setMusicVolume(double volume) {
         this.musicVolume = Math.max(0.0, Math.min(1.0, volume));
         updateMusicVolumes();
     }
 
+    /**
+     * Sets the global volume for all sound effects.
+     * The volume is clamped between 0.0 and 1.0.
+     *
+     * @param volume The desired sound effects volume (0.0 to 1.0).
+     */
     public void setSfxVolume(double volume) {
         this.sfxVolume = Math.max(0.0, Math.min(1.0, volume));
         updateSfxVolumes();
     }
 
+    /**
+     * Updates the volume of all active music players based on the current musicVolume setting.
+     */
     private void updateMusicVolumes() {
         if (menuMusicPlayer != null) {
             menuMusicPlayer.setVolume(musicVolume);
@@ -178,6 +247,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Updates the volume of all loaded sound effect players based on the current sfxVolume setting.
+     */
     private void updateSfxVolumes() {
         for (MediaPlayer player : soundEffects.values()) {
             if (player != null) {
@@ -186,15 +258,32 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Retrieves the current global volume setting for background music.
+     *
+     * @return The current music volume (0.0 to 1.0).
+     */
     public double getMusicVolume() {
         return musicVolume;
     }
 
+    /**
+     * Retrieves the current global volume setting for sound effects.
+     *
+     * @return The current sound effects volume (0.0 to 1.0).
+     */
     public double getSfxVolume() {
         return sfxVolume;
     }
 
     // Enable/Disable
+    /**
+     * Enables or disables all background music.
+     * If music is disabled, any playing music will be stopped.
+     * If re-enabled, previously playing music will resume.
+     *
+     * @param enabled True to enable music, false to disable.
+     */
     public void setMusicEnabled(boolean enabled) {
         this.musicEnabled = enabled;
         if (!enabled) {
@@ -205,19 +294,38 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Enables or disables all sound effects.
+     *
+     * @param enabled True to enable sound effects, false to disable.
+     */
     public void setSfxEnabled(boolean enabled) {
         this.sfxEnabled = enabled;
     }
 
+    /**
+     * Checks if background music is currently enabled.
+     *
+     * @return True if music is enabled, false otherwise.
+     */
     public boolean isMusicEnabled() {
         return musicEnabled;
     }
 
+    /**
+     * Checks if sound effects are currently enabled.
+     *
+     * @return True if sound effects are enabled, false otherwise.
+     */
     public boolean isSfxEnabled() {
         return sfxEnabled;
     }
 
     // Cleanup
+    /**
+     * Releases all resources held by the AudioManager, stopping all music
+     * and disposing of MediaPlayer instances to prevent resource leaks.
+     */
     public void dispose() {
         stopAllMusic();
         if (menuMusicPlayer != null) menuMusicPlayer.dispose();
