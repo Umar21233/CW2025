@@ -20,6 +20,10 @@ import java.net.URL;
 
 public class SettingsController {
 
+    /**
+     * Cycles through the available themes and updates the game settings and UI.
+     * Plays a button click sound effect.
+     */
     @FXML
     private void cycleTheme() {
         audioManager.playSound(com.comp2042.audio.SoundEffect.BUTTON_CLICK);
@@ -40,6 +44,9 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Updates the text of the theme button to reflect the currently selected theme.
+     */
     private void updateThemeButtonText() {
         btnTheme.setText("Button Theme: " + gameSettings.getCurrentTheme().getDisplayName());
     }
@@ -49,10 +56,17 @@ public class SettingsController {
     @FXML private Button btnGhostMode;
     @FXML private Button btnBack;
 
+    /** The primary stage of the application, used to set new scenes. */
     private Stage primaryStage;
+    /** Singleton instance of AudioManager for playing sound effects. */
     private AudioManager audioManager;
+    /** Singleton instance of GameSettings for managing game preferences. */
     private GameSettings gameSettings;
 
+    /**
+     * Initializes the controller. This method is automatically called after the FXML file has been loaded.
+     * It initializes the AudioManager and GameSettings instances and updates the button texts.
+     */
     public void initialize() {
         audioManager = AudioManager.getInstance();
         gameSettings = GameSettings.getInstance();
@@ -61,6 +75,12 @@ public class SettingsController {
         updateThemeButtonText();
     }
 
+    /**
+     * Sets the primary stage for this controller. This is typically called by the main application.
+     * The theme is applied to the scene once the stage is set.
+     *
+     * @param stage The primary Stage of the application.
+     */
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
         // Apply theme when the stage is set
@@ -69,6 +89,10 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Toggles the ghost mode setting (on/off) and updates the UI accordingly.
+     * Plays a button click sound effect.
+     */
     @FXML
     private void toggleGhostMode() {
         audioManager.playSound(com.comp2042.audio.SoundEffect.BUTTON_CLICK);
@@ -79,6 +103,9 @@ public class SettingsController {
         updateGhostModeButtonText();
     }
 
+    /**
+     * Updates the text of the ghost mode button to reflect its current state (ON/OFF).
+     */
     private void updateGhostModeButtonText() {
         if (gameSettings.isGhostModeEnabled()) {
             btnGhostMode.setText("Ghost Mode: ON");
@@ -87,6 +114,11 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Opens the audio settings screen.
+     * Plays a button click sound effect.
+     * Loads the audio_settings.fxml, sets its controller, and displays it on the primary stage.
+     */
     @FXML
     private void openAudioSettings() {
         audioManager.playSound(com.comp2042.audio.SoundEffect.BUTTON_CLICK);
@@ -115,6 +147,11 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Navigates back to the main menu screen.
+     * Plays a button click sound effect.
+     * Loads the main_menu.fxml, sets its controller, and displays it on the primary stage.
+     */
     @FXML
     private void backToMainMenu() {
         audioManager.playSound(com.comp2042.audio.SoundEffect.BUTTON_CLICK);

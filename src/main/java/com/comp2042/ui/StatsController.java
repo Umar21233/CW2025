@@ -33,10 +33,17 @@ public class StatsController {
     @FXML private Button btnReset;
     @FXML private Button btnBack;
 
+    /** The primary stage of the application, used to set new scenes. */
     private Stage primaryStage;
+    /** Singleton instance of AudioManager for playing sound effects. */
     private AudioManager audioManager;
+    /** Singleton instance of PlayerStats for accessing and managing player statistics. */
     private PlayerStats playerStats;
 
+    /**
+     * Initializes the controller. This method is automatically called after the FXML file has been loaded.
+     * It initializes the AudioManager and PlayerStats instances and starts the animation of statistics.
+     */
     @FXML
     public void initialize() {
         audioManager = AudioManager.getInstance();
@@ -45,10 +52,19 @@ public class StatsController {
         animateStats();
     }
 
+    /**
+     * Sets the primary stage for this controller. This is typically called by the main application.
+     *
+     * @param stage The primary Stage of the application.
+     */
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }
 
+    /**
+     * Animates the display of various player statistics (total games, total points,
+     * highest score, highest combo, highest level) using a count-up effect.
+     */
     private void animateStats() {
         // Animate Total Games
         animateNumber(lblTotalGames, 0, playerStats.getTotalGamesPlayed(), 1000, "");
@@ -66,6 +82,16 @@ public class StatsController {
         animateNumber(lblHighestLevel, 0, playerStats.getHighestLevel(), 800, "");
     }
 
+    /**
+     * Animates a number displayed in a JavaFX Label from a starting value to an ending value
+     * over a specified duration.
+     *
+     * @param label The JavaFX Label to update with the animated number.
+     * @param start The starting integer value for the animation.
+     * @param end The final integer value for the animation.
+     * @param durationMs The duration of the animation in milliseconds.
+     * @param suffix An optional string suffix to append to the displayed number (e.g., " Lines").
+     */
     private void animateNumber(Label label, int start, int end, int durationMs, String suffix) {
         if (end == 0) {
             label.setText("0" + suffix);
@@ -90,6 +116,11 @@ public class StatsController {
         timeline.play();
     }
 
+    /**
+     * Handles the action of the reset statistics button.
+     * Displays a confirmation dialog before resetting all player statistics.
+     * Plays a button click sound effect.
+     */
     @FXML
     private void resetStats() {
         audioManager.playSound(SoundEffect.BUTTON_CLICK);
@@ -114,6 +145,10 @@ public class StatsController {
         }
     }
 
+    /**
+     * Handles the action of the back button, navigating the user back to the main menu.
+     * Plays a button click sound effect.
+     */
     @FXML
     private void goBack() {
         audioManager.playSound(SoundEffect.BUTTON_CLICK);

@@ -3,8 +3,21 @@ package com.comp2042.ui;
 import javafx.scene.Scene;
 import java.net.URL;
 
+/**
+ * Manages the application of different visual themes to JavaFX scenes.
+ * This utility class is responsible for loading and setting CSS stylesheets
+ * based on the currently selected theme from GameSettings.
+ */
 public class ThemeManager {
 
+    /**
+     * Applies the currently selected theme to the given JavaFX Scene.
+     * It clears existing stylesheets and adds the CSS file associated with
+     * the current theme from GameSettings. If the specified CSS file is not found,
+     * it attempts to load a default theme.
+     *
+     * @param scene The JavaFX Scene to which the theme should be applied.
+     */
     public static void applyTheme(Scene scene) {
         if (scene == null) {
             return;

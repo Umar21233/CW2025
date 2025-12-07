@@ -11,12 +11,22 @@ import javafx.scene.shape.Rectangle;
 public class PieceRenderer {
 
     // --- Styling Constants ---
+    /** The arc height for rounded corners of brick rectangles. */
     private static final double ARC_HEIGHT = 9;
+    /** The arc width for rounded corners of brick rectangles. */
     private static final double ARC_WIDTH  = 9;
+    /** The opacity level for ghost pieces. */
     private static final double GHOST_OPACITY = 0.40;
 
     /**
      * Maps the brick ID (1-7) to its JavaFX Color.
+     */
+    /**
+     * Returns the JavaFX Paint object corresponding to a given brick ID.
+     * Brick ID 0 typically represents a transparent or empty cell.
+     *
+     * @param i The integer ID of the brick (0 for transparent, 1-7 for different colors).
+     * @return A JavaFX Paint object representing the color of the brick.
      */
     public Paint getFillColor(int i) {
         switch (i) {
@@ -33,7 +43,11 @@ public class PieceRenderer {
     }
 
     /**
-     * Sets the fill color and styling for an active (or landed) piece rectangle.
+     * Applies the appropriate fill color and rounded corner styling to a given Rectangle
+     * based on the provided color ID for an active or landed brick.
+     *
+     * @param colorId The integer ID of the brick's color.
+     * @param rectangle The JavaFX Rectangle to style.
      */
     public void styleBrickRectangle(int colorId, Rectangle rectangle) {
         rectangle.setFill(getFillColor(colorId));
@@ -42,7 +56,12 @@ public class PieceRenderer {
     }
 
     /**
-     * Sets the translucent fill color and styling for a ghost piece rectangle.
+     * Applies a translucent fill color and rounded corner styling to a given Rectangle
+     * to represent a ghost piece. The opacity is determined by GHOST_OPACITY.
+     * If colorId is 0, the rectangle will be transparent.
+     *
+     * @param colorId The integer ID of the brick's color.
+     * @param rectangle The JavaFX Rectangle to style as a ghost piece.
      */
     public void styleGhostRectangle(int colorId, Rectangle rectangle) {
         if (colorId == 0) {

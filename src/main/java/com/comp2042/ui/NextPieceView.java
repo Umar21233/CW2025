@@ -10,11 +10,22 @@ import javafx.scene.shape.Rectangle;
  */
 public class NextPieceView {
 
+    /** The JavaFX Pane where the next piece preview is displayed. */
     private final Pane nextPane;
+    /** The renderer responsible for styling the individual brick rectangles. */
     private final PieceRenderer renderer;
+    /** A 2D array of Rectangles representing the 4x4 grid for the next piece preview. */
     private final Rectangle[][] nextRects = new Rectangle[4][4];
+    /** The calculated size of the 4x4 grid used for the next piece preview. */
     private final double gridSize;
 
+    /**
+     * Constructs a new NextPieceView.
+     * Initializes the preview pane, renderer, and calculates the grid size.
+     *
+     * @param nextPane The Pane where the next piece will be displayed.
+     * @param renderer The PieceRenderer instance to style the brick rectangles.
+     */
     public NextPieceView(Pane nextPane, PieceRenderer renderer) {
         this.nextPane = nextPane;
         this.renderer = renderer;
@@ -22,6 +33,12 @@ public class NextPieceView {
         initPaneStructure();
     }
 
+    /**
+     * Initializes the structure of the next piece preview pane.
+     * This method clears existing children, sets up a 4x4 grid of Rectangle objects,
+     * centers them within the pane, and adds a listener to re-center the grid
+     * if the pane is resized.
+     */
     private void initPaneStructure() {
         // Clear the pane before re-adding elements on new game.
         nextPane.getChildren().clear();
