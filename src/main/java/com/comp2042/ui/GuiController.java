@@ -95,6 +95,7 @@ public class GuiController implements Initializable {
     private int currentFinalScore = 0;
     /** Stores the final level reached in the last completed game. */
     private int currentFinalLevel = 1;
+    private int currentHighScore = 0;
 
     /** Property indicating whether the game is currently paused. */
     private final BooleanProperty isPause = new SimpleBooleanProperty(false);
@@ -449,6 +450,9 @@ public class GuiController implements Initializable {
      */
     public void bindHighScore(IntegerProperty highProp) {
         highLabel.textProperty().bind(Bindings.format("High Score: %d", highProp));
+        highProp.addListener((obs, oldVal, newVal) -> {
+            currentHighScore = newVal.intValue();
+        });
     }
 
     /**
@@ -479,7 +483,7 @@ public class GuiController implements Initializable {
 
         audioManager.playSound(SoundEffect.GAME_OVER);
 
-        playerStats.recordGameEnd(currentFinalScore, currentFinalLevel);
+        playerStats.recordGameEnd(currentFinalScore, currentFinalLevel, currentHighScore);
 
         gameOverPanel.setVisible(true);
         isGameOver.set(true);

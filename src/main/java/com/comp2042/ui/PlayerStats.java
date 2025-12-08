@@ -1,5 +1,7 @@
 package com.comp2042.ui;
 
+import com.comp2042.logic.HighScorePersistence;
+
 import java.util.prefs.Preferences;
 
 /**
@@ -50,7 +52,7 @@ public class PlayerStats {
 
     /**
      * Returns the singleton instance of PlayerStats.
-     * If the instance does not exist, it creates one.
+     * If the instance does not exist, it is created.
      *
      * @return The single instance of PlayerStats.
      */
@@ -91,12 +93,12 @@ public class PlayerStats {
      * @param finalScore The score achieved in the just-completed game.
      * @param finalLevel The level reached in the just-completed game.
      */
-    public void recordGameEnd(int finalScore, int finalLevel) {
+    public void recordGameEnd(int finalScore, int finalLevel, int gameHighScore) {
         totalGamesPlayed++;
         totalPointsScored += finalScore;
 
-        if (finalScore > highestScore) {
-            highestScore = finalScore;
+        if (gameHighScore > highestScore) {
+            highestScore = gameHighScore;
         }
 
         if (finalLevel > highestLevel) {
@@ -160,6 +162,13 @@ public class PlayerStats {
         return highestLevel;
     }
 
+    public void setHighestScore(int newHighScore) {
+        if (newHighScore > highestScore) {
+            highestScore = newHighScore;
+            saveStats();
+        }
+    }
+
     /**
      * Resets all player statistics to their initial values (0 or 1 for level)
      * and persists these changes.
@@ -171,5 +180,6 @@ public class PlayerStats {
         highestCombo = 0;
         highestLevel = 1;
         saveStats();
+        HighScorePersistence.saveHighScore(0);
     }
 }

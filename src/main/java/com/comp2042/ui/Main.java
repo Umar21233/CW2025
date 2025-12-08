@@ -1,6 +1,7 @@
 package com.comp2042.ui;
 
 import com.comp2042.audio.AudioManager;
+import com.comp2042.logic.HighScorePersistence;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,6 +31,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        synchronizeHighScores();
+
         URL location = getClass().getResource("/main_menu.fxml");
         ResourceBundle resources = null;
         FXMLLoader fxmlLoader = new FXMLLoader(location, resources);
@@ -52,6 +55,20 @@ public class Main extends Application {
             AudioManager.getInstance().dispose();
         });
     }
+
+    private void synchronizeHighScores() {
+        PlayerStats playerStats = PlayerStats.getInstance();
+        int playerStatsHighScore = playerStats.getHighestScore();
+
+        int fileHighScore = HighScorePersistence.loadHighScore();
+
+        if (playerStatsHighScore > fileHighScore) {
+            HighScorePersistence.saveHighScore(playerStatsHighScore);
+        } else if (fileHighScore > playerStatsHighScore) {
+            playerStats.setHighestScore(fileHighScore);
+        }
+    }
+
 
     /**
      * This method is called when the application should stop.

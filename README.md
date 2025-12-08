@@ -26,7 +26,7 @@ From the project root:
 ./mvnw -q clean javafx:run
 
 # Windows
-mvnw.cmd -q clean javafx:run
+.\\mvnw.cmd -q clean javafx:run
 ```
 
 ---

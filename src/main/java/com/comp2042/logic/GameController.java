@@ -55,6 +55,10 @@ public class GameController implements InputEventListener {
         boolean canMove = board.moveBrickDown();
         ClearRow clearRow = null;
 
+        if(canMove && event.getEventSource() == com.comp2042.model.EventSource.USER) {
+            board.getScore().add(10);
+        }
+
         if (!canMove) {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
